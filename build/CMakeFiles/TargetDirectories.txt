@@ -1,0 +1,3 @@
+/Users/janavimunagavalasa1/Downloads/Terra Weather/Terra-Weather/build/CMakeFiles/ProceduralWorld.dir
+/Users/janavimunagavalasa1/Downloads/Terra Weather/Terra-Weather/build/CMakeFiles/edit_cache.dir
+/Users/janavimunagavalasa1/Downloads/Terra Weather/Terra-Weather/build/CMakeFiles/rebuild_cache.dir
