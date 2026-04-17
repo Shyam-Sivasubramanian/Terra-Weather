@@ -90,7 +90,7 @@ public:
 
         // Sun disk
         if (cosTheta > 0.9999f) {
-            atmosphereColor += glm::vec3(10.0f, 8.0f, 6.0f) * (float)std::(float)std::pow((cosTheta - 0.9999f) * 10000.0f, 2.0f);
+            atmosphereColor += glm::vec3(10.0f, 8.0f, 6.0f) * (float)std::pow((cosTheta - 0.9999f) * 10000.0f, 2.0f);
         }
 
         return atmosphereColor;
@@ -123,7 +123,7 @@ public:
         float mieOpticalDepth = distance / AtmosphereConstants::mieHeight;
 
         glm::vec3 rayleighExtinction = exp(-rayleighOpticalDepth * AtmosphereConstants::rayleighCoeff);
-        glm::vec3 mieExtinction = glm::glm::exp(-mieOpticalDepth * glm::vec3(glm::vec3(AtmosphereConstants::mieCoeff * turbidity)));
+        glm::vec3 mieExtinction = glm::exp(-mieOpticalDepth * glm::vec3(glm::vec3(AtmosphereConstants::mieCoeff * turbidity)));
 
         return rayleighExtinction * mieExtinction;
     }

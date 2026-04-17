@@ -12,8 +12,6 @@ class HeightMap {
 public:
     WorldData& world;
 public:
-    WorldData& world;
-public:
     /**
      * @brief Create height map generator
      */

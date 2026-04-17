@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "glm/glm.hpp"
 #include <memory>
+#include "../core/Camera.h"
 
 /**
  * @brief Core ray tracing engine
@@ -74,37 +75,6 @@ Ray generateCameraRay(const CameraParams& params, float u, float v,
 /**
  * @brief Camera with depth of field support
  */
-class Camera {
-public:
-    CameraParams params;
-    glm::vec3 u, v, w;  // Camera basis vectors
-
-    Camera(const CameraParams& p) : params(p) {
-        recomputeBasis();
-    }
-
-    void recomputeBasis() {
-        w = glm::normalize(params.origin - params.lookAt);
-        u = glm::normalize(glm::cross(params.up, w));
-        v = glm::cross(w, u);
-    }
-
-    Ray getRay(float s, float t, float uJitter, float vJitter) const {
-        // Lens sampling for DOF
-        glm::vec3 rd = params.aperture * randomInUnitDisk() * uJitter;
-        glm::vec3 offset = u * rd.x + v * rd.y;
-
-        // Primary ray direction
-        float theta = glm::radians(params.fov * 0.5f);
-        float halfHeight = tan(theta);
-        float halfWidth = params.aspectRatio * halfHeight;
-
-        glm::vec3 lowerLeft = params.origin - halfWidth * u - halfHeight * v - params.focusDistance * w;
-        glm::vec3 direction = lowerLeft + 2.0f * halfWidth * u * s + 2.0f * halfHeight * v * t - params.origin - offset;
-
-        Ray ray(params.origin + offset, glm::normalize(direction));
-        return ray;
-    }
 
 private:
     static glm::vec3 randomInUnitDisk() {

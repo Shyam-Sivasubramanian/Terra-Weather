@@ -340,7 +340,7 @@ public:
     }
 
     void setCamera(const Camera& cam) {
-        camera.position = cam.position; camera.lookAt = cam.lookAt; camera.up = cam.up; camera.vfov = cam.vfov; camera.aperture = cam.aperture; camera.focusDist = cam.focusDist;
+        camera.position = cam.position; camera.lookAt = cam.lookAt; camera.up = cam.up; camera.fov = cam.fov; camera.aperture = cam.aperture; camera.focusDistance = cam.focusDistance;
         cameraChanged = true;
         needsRedraw = true;
     }
