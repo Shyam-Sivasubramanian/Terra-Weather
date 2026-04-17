@@ -10,10 +10,10 @@
 #include "raytracer/Renderer.h"
 #include "terrain/NoiseGen.h"
 #include "terrain/HeightMap.h"
-#include "HumidityMap.h"
-#include "WindField.h"
-#include "WeatherMap.h"
-#include "Atmosphere.h"
+#include "climate/HumidityMap.h"
+#include "climate/WindField.h"
+#include "climate/WeatherMap.h"
+#include "raytracer/Atmosphere.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -65,7 +65,7 @@ public:
         // Camera
         camera.position = glm::vec3(0.5f, 0.6f, -1.5f);
         camera.lookAt = glm::vec3(0.5f, 0.4f, 0.5f);
-        camera.vfov = 60.0f;
+        camera.fov = 60.0f;
         renderer->setCamera(camera);
     }
 

@@ -339,10 +339,13 @@ public:
         needsRedraw = true;
     }
 
-    void setCamera(const Camera& cam) {
-        camera.position = cam.position; camera.lookAt = cam.lookAt; camera.up = cam.up; camera.fov = cam.fov; camera.aperture = cam.aperture; camera.focusDistance = cam.focusDistance;
-        cameraChanged = true;
-        needsRedraw = true;
+    void setCamera(const ::Camera& cam) {
+        camera.position = cam.position; 
+        camera.lookAt = cam.lookAt; 
+        camera.up = cam.up; 
+        camera.fov = cam.fov; 
+        camera.aperture = cam.aperture; 
+        camera.focusDistance = cam.focusDistance;
     }
 
     bool isRendering() const { return running; }
@@ -405,7 +408,7 @@ void Renderer::setTileSize(int size) {
     impl->setTileSize(size);
 }
 
-void Renderer::setCamera(const Renderer::Camera& cam) {
+void Renderer::setCamera(const ::Camera& cam) {
     impl->setCamera(cam);
 }
 
