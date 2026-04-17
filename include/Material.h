@@ -2,9 +2,11 @@
 
 #include "Ray.h"
 #include "HitRecord.h"
+#include "Texture.h"
 #include "glm/glm.hpp"
 #include <memory>
 #include <random>
+#include <cmath>
 
 /**
  * @brief Abstract base class for all materials
@@ -106,7 +108,7 @@ protected:
         float discriminant = 1.0f - ni_over_nt * ni_over_nt * (1.0f - dt * dt);
 
         if (discriminant > 0) {
-            refracted = ni_over_nt * (uv - n * dt) - n * sqrt(discriminant);
+            refracted = ni_over_nt * (uv - n * dt) - n * sqrtf(discriminant);
             return true;
         }
         return false;

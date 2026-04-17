@@ -71,9 +71,9 @@ namespace RayUtils {
                            const glm::vec3& u_cam, const glm::vec3& v_cam,
                            float u, float v, float time = 0.0f) {
         // Jitter aperture sample
-        float r = sqrt(u) * apertureRadius;
+        float r = sqrtf(u) * apertureRadius;
         float theta = v * 6.2831853f;
-        glm::vec3 apertureOffset = r * cos(theta) * u_cam + r * sin(theta) * v_cam;
+        glm::vec3 apertureOffset = r * cosf(theta) * u_cam + r * sinf(theta) * v_cam;
 
         glm::vec3 rayOrigin = apertureCenter + apertureOffset;
         glm::vec3 focusOffset = (focusDist / focusDist) * (focusPoint - apertureCenter);
