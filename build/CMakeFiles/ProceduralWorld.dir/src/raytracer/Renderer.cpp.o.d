@@ -225,6 +225,7 @@ CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o: \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Scene.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/HitRecord.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Material.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Texture.h \
  /usr/include/c++/13/memory /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/c++/13/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
