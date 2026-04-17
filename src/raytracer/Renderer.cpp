@@ -1,5 +1,4 @@
 #include "Renderer.h"
-<<<<<<< HEAD
 #include "Scene.h"
 #include "RayTrace.h"
 #include "Atmosphere.h"
@@ -427,20 +426,3 @@ float Renderer::getProgress() const {
 float Renderer::getElapsedTime() const {
     return impl->getElapsedTime();
 }
-=======
-#include <GLFW/glfw3.h>
-
-namespace Renderer {
-    void renderStub(const WorldData& worldData) {
-        float h = 0.5f;
-        if (!worldData.heightMap.empty()) {
-            int cx = worldData.width / 2;
-            int cz = worldData.height / 2;
-            h = worldData.get(worldData.heightMap, cx, cz);
-        }
-
-        glClearColor(0.2f + h * 0.3f, 0.3f + h * 0.2f, 0.5f + h * 0.2f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
-}
->>>>>>> fa2aca87a26a39699bf9f62c31cd09d43d385afd

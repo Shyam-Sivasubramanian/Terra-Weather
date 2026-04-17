@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/janavimunagavalasa1/Downloads/Terra Weather/Terra-Weather/src/core/Window.cpp" "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o.d"
-  "/Users/janavimunagavalasa1/Downloads/Terra Weather/Terra-Weather/src/main.cpp" "CMakeFiles/ProceduralWorld.dir/src/main.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/main.cpp.o.d"
-  "/Users/janavimunagavalasa1/Downloads/Terra Weather/Terra-Weather/src/raytracer/Renderer.cpp" "CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o.d"
-  "/Users/janavimunagavalasa1/Downloads/Terra Weather/Terra-Weather/src/terrain/HeightMap.cpp" "CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.o.d"
+  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/core/Window.cpp" "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o.d"
+  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/main.cpp" "CMakeFiles/ProceduralWorld.dir/src/main.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/main.cpp.o.d"
+  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/raytracer/Renderer.cpp" "CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o.d"
+  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/terrain/HeightMap.cpp" "CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
