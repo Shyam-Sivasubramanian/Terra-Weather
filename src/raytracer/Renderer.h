@@ -1,3 +1,6 @@
+#include "../core/Camera.h"
+#include "../core/Camera.h"
+class Camera;
 #pragma once
 
 #include "RayTrace.h"

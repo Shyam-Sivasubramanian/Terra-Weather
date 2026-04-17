@@ -1,9 +1,8 @@
 CMakeFiles/ProceduralWorld.dir/src/main.cpp.o: \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/main.cpp \
  /usr/include/stdc-predef.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Window.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/core/Framebuffer.h \
- /usr/include/glm/glm.hpp /usr/include/glm/detail/_fixes.hpp \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/core/Camera.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Ray.h \
  /usr/include/c++/13/cmath /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -91,10 +90,11 @@ CMakeFiles/ProceduralWorld.dir/src/main.cpp.o: \
  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
  /usr/include/c++/13/tr1/poly_hermite.tcc \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
- /usr/include/c++/13/tr1/riemann_zeta.tcc \
- /usr/include/glm/detail/setup.hpp /usr/include/c++/13/cassert \
- /usr/include/assert.h /usr/include/c++/13/cstddef \
- /usr/include/glm/simd/platform.h /usr/include/c++/13/cstdint \
+ /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/glm/glm.hpp \
+ /usr/include/glm/detail/_fixes.hpp /usr/include/glm/detail/setup.hpp \
+ /usr/include/c++/13/cassert /usr/include/assert.h \
+ /usr/include/c++/13/cstddef /usr/include/glm/simd/platform.h \
+ /usr/include/c++/13/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
@@ -220,46 +220,29 @@ CMakeFiles/ProceduralWorld.dir/src/main.cpp.o: \
  /usr/include/glm/packing.hpp /usr/include/glm/detail/func_packing.inl \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
- /usr/include/glm/detail/func_integer.inl /usr/include/c++/13/vector \
+ /usr/include/glm/detail/func_integer.inl /usr/include/GLFW/glfw3.h \
+ /usr/include/GL/gl.h /usr/include/GL/glext.h \
+ /usr/include/KHR/khrplatform.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Window.h \
+ /usr/include/c++/13/memory /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/c++/13/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
  /usr/include/c++/13/bits/new_allocator.h /usr/include/c++/13/new \
  /usr/include/c++/13/bits/exception.h \
- /usr/include/c++/13/bits/memoryfwd.h \
+ /usr/include/c++/13/bits/stl_tempbuf.h \
  /usr/include/c++/13/bits/stl_construct.h \
  /usr/include/c++/13/bits/stl_uninitialized.h \
  /usr/include/c++/13/ext/alloc_traits.h \
  /usr/include/c++/13/bits/alloc_traits.h \
- /usr/include/c++/13/bits/stl_vector.h \
- /usr/include/c++/13/initializer_list \
- /usr/include/c++/13/bits/stl_bvector.h \
- /usr/include/c++/13/bits/functional_hash.h \
- /usr/include/c++/13/bits/hash_bytes.h /usr/include/c++/13/bits/refwrap.h \
+ /usr/include/c++/13/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/13/bits/align.h \
+ /usr/include/c++/13/bits/uses_allocator.h \
+ /usr/include/c++/13/bits/unique_ptr.h /usr/include/c++/13/tuple \
  /usr/include/c++/13/bits/invoke.h \
  /usr/include/c++/13/bits/stl_function.h \
  /usr/include/c++/13/backward/binders.h \
- /usr/include/c++/13/bits/range_access.h \
- /usr/include/c++/13/bits/vector.tcc \
- /usr/include/c++/13/bits/memory_resource.h \
- /usr/include/c++/13/bits/uses_allocator.h \
- /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Camera.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/WorldData.h \
- /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
- /usr/include/c++/13/bits/algorithmfwd.h \
- /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
- /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/cstdlib \
- /usr/include/c++/13/pstl/glue_algorithm_defs.h \
- /usr/include/c++/13/pstl/execution_defs.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Scene.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/HitRecord.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Ray.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Material.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Texture.h \
- /usr/include/c++/13/memory \
- /usr/include/c++/13/bits/stl_raw_storage_iter.h \
- /usr/include/c++/13/bits/align.h /usr/include/c++/13/bits/unique_ptr.h \
+ /usr/include/c++/13/bits/functional_hash.h \
+ /usr/include/c++/13/bits/hash_bytes.h \
  /usr/include/c++/13/bits/shared_ptr.h /usr/include/c++/13/iosfwd \
  /usr/include/c++/13/bits/stringfwd.h /usr/include/c++/13/bits/postypes.h \
  /usr/include/c++/13/cwchar /usr/include/wchar.h \
@@ -273,6 +256,7 @@ CMakeFiles/ProceduralWorld.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
  /usr/include/c++/13/bits/shared_ptr_base.h /usr/include/c++/13/typeinfo \
  /usr/include/c++/13/bits/allocated_ptr.h \
+ /usr/include/c++/13/bits/refwrap.h \
  /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/ext/atomicity.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
@@ -297,8 +281,29 @@ CMakeFiles/ProceduralWorld.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/atomic_base.h \
  /usr/include/c++/13/bits/atomic_lockfree_defines.h \
  /usr/include/c++/13/backward/auto_ptr.h \
- /usr/include/c++/13/pstl/glue_memory_defs.h /usr/include/c++/13/random \
- /usr/include/c++/13/string /usr/include/c++/13/bits/char_traits.h \
+ /usr/include/c++/13/pstl/glue_memory_defs.h \
+ /usr/include/c++/13/pstl/execution_defs.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/core/Framebuffer.h \
+ /usr/include/c++/13/vector /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/initializer_list \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/range_access.h \
+ /usr/include/c++/13/bits/vector.tcc \
+ /usr/include/c++/13/bits/memory_resource.h \
+ /usr/include/c++/13/bits/uses_allocator_args.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/WorldData.h \
+ /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h /usr/include/c++/13/cstdlib \
+ /usr/include/c++/13/pstl/glue_algorithm_defs.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Scene.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/HitRecord.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/BVH.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Material.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Texture.h \
+ /usr/include/c++/13/random /usr/include/c++/13/string \
+ /usr/include/c++/13/bits/char_traits.h \
  /usr/include/c++/13/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
  /usr/include/c++/13/clocale /usr/include/locale.h \
@@ -327,19 +332,17 @@ CMakeFiles/ProceduralWorld.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/random.tcc /usr/include/c++/13/numeric \
  /usr/include/c++/13/bits/stl_numeric.h \
  /usr/include/c++/13/pstl/glue_numeric_defs.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/BVH.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/TerrainHittable.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Renderer.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Renderer.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/RayTrace.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/terrain/NoiseGen.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/HeightMap.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/terrain/HeightMap.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/climate/HumidityMap.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/climate/WindField.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/climate/WeatherMap.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Atmosphere.h \
- /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
- /usr/include/KHR/khrplatform.h /usr/include/c++/13/iostream \
- /usr/include/c++/13/ostream /usr/include/c++/13/ios \
- /usr/include/c++/13/bits/ios_base.h \
+ /usr/include/c++/13/iostream /usr/include/c++/13/ostream \
+ /usr/include/c++/13/ios /usr/include/c++/13/bits/ios_base.h \
  /usr/include/c++/13/bits/locale_classes.h \
  /usr/include/c++/13/bits/locale_classes.tcc \
  /usr/include/c++/13/system_error \

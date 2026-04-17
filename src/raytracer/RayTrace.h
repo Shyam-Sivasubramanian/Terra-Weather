@@ -74,12 +74,12 @@ Ray generateCameraRay(const CameraParams& params, float u, float v,
 /**
  * @brief Camera with depth of field support
  */
-class DOFCamera {
+class Camera {
 public:
     CameraParams params;
     glm::vec3 u, v, w;  // Camera basis vectors
 
-    DOFCamera(const CameraParams& p) : params(p) {
+    Camera(const CameraParams& p) : params(p) {
         recomputeBasis();
     }
 

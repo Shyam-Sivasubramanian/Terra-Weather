@@ -1,3 +1,7 @@
+#include "../core/Camera.h"
+#include "../core/Camera.h"
+#include <new>
+#include "../core/Camera.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "RayTrace.h"
@@ -345,13 +349,6 @@ public:
     float getProgress() const { return stats.progress(); }
     float getElapsedTime() const { return stats.elapsedSeconds(); }
 
-    struct Camera {
-        glm::vec3 position = glm::vec3(0.5f, 0.5f, -1.0f);
-        glm::vec3 lookAt = glm::vec3(0.5f, 0.5f, 0.5f);
-        float fov = 60.0f;
-        float aperture = 0.0f;
-        float focusDistance = 1.0f;
-    };
 
     std::shared_ptr<Scene> scene;
     std::unique_ptr<RayTracer> rayTracer;
@@ -407,7 +404,7 @@ void Renderer::setTileSize(int size) {
     impl->setTileSize(size);
 }
 
-void Renderer::setCamera(const Renderer::Camera& cam) {
+void Renderer::setCamera(const Camera& cam) {
     impl->setCamera(cam);
 }
 

@@ -1,14 +1,17 @@
-#include "raytracer/Renderer.h"
-#include "terrain/HeightMap.h"
-#include "terrain/NoiseGen.h"
+#include "core/Camera.h"
+#include "core/Camera.h"
+#include <GLFW/glfw3.h>
+#include "core/Camera.h"
+#include <GLFW/glfw3.h>
+#include "core/Camera.h"
 #include "Window.h"
 #include "Framebuffer.h"
-#include "Camera.h"
+#include "core/Camera.h"
 #include "WorldData.h"
 #include "Scene.h"
-#include "Renderer.h"
-#include "NoiseGen.h"
-#include "HeightMap.h"
+#include "raytracer/Renderer.h"
+#include "terrain/NoiseGen.h"
+#include "terrain/HeightMap.h"
 #include "HumidityMap.h"
 #include "WindField.h"
 #include "WeatherMap.h"
@@ -64,7 +67,7 @@ public:
         // Camera
         camera.position = glm::vec3(0.5f, 0.6f, -1.5f);
         camera.lookAt = glm::vec3(0.5f, 0.4f, 0.5f);
-        camera.fov = 60.0f;
+        camera.vfov = 60.0f;
         renderer->setCamera(camera);
     }
 
@@ -198,7 +201,7 @@ private:
     std::shared_ptr<WorldData> worldData;
     std::shared_ptr<Scene> scene;
     std::unique_ptr<Renderer> renderer;
-    Renderer::Camera camera;
+    Camera camera;
 };
 
 int main() {

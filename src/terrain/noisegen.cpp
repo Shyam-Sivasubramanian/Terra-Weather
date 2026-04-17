@@ -118,7 +118,7 @@ float NoiseGen::ridged(float x, float y, int octaves, float persistence, float r
         n = n * n * (ridgeOffset + prev);
         sum += n * amplitude;
         maxValue += amplitude;
-        frequency *= lacunarity;
+        frequency *= 2.0f;
         amplitude *= persistence;
         prev = n;
     }

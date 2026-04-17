@@ -223,8 +223,6 @@ CMakeFiles/ProceduralWorld.dir/src/raytracer/RayTrace.cpp.o: \
  /usr/include/glm/detail/func_integer.inl \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Scene.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/HitRecord.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Material.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Texture.h \
  /usr/include/c++/13/memory /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/c++/13/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
@@ -283,8 +281,23 @@ CMakeFiles/ProceduralWorld.dir/src/raytracer/RayTrace.cpp.o: \
  /usr/include/c++/13/bits/atomic_lockfree_defines.h \
  /usr/include/c++/13/backward/auto_ptr.h \
  /usr/include/c++/13/pstl/glue_memory_defs.h \
- /usr/include/c++/13/pstl/execution_defs.h /usr/include/c++/13/random \
- /usr/include/c++/13/cstdlib /usr/include/c++/13/string \
+ /usr/include/c++/13/pstl/execution_defs.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/BVH.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Material.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Texture.h \
+ /usr/include/c++/13/vector /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/initializer_list \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/range_access.h \
+ /usr/include/c++/13/bits/vector.tcc \
+ /usr/include/c++/13/bits/memory_resource.h \
+ /usr/include/c++/13/bits/uses_allocator_args.h \
+ /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h /usr/include/c++/13/cstdlib \
+ /usr/include/c++/13/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/13/random /usr/include/c++/13/string \
  /usr/include/c++/13/bits/char_traits.h \
  /usr/include/c++/13/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
@@ -292,8 +305,6 @@ CMakeFiles/ProceduralWorld.dir/src/raytracer/RayTrace.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/13/cctype \
  /usr/include/ctype.h /usr/include/c++/13/bits/ostream_insert.h \
  /usr/include/c++/13/bits/cxxabi_forced.h \
- /usr/include/c++/13/bits/range_access.h \
- /usr/include/c++/13/initializer_list \
  /usr/include/c++/13/bits/basic_string.h /usr/include/c++/13/string_view \
  /usr/include/c++/13/bits/string_view.tcc \
  /usr/include/c++/13/ext/string_conversions.h /usr/include/c++/13/cstdio \
@@ -311,24 +322,13 @@ CMakeFiles/ProceduralWorld.dir/src/raytracer/RayTrace.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/charconv.h \
  /usr/include/c++/13/bits/basic_string.tcc \
- /usr/include/c++/13/bits/memory_resource.h \
- /usr/include/c++/13/bits/uses_allocator_args.h \
- /usr/include/c++/13/bits/random.h /usr/include/c++/13/vector \
- /usr/include/c++/13/bits/stl_vector.h \
- /usr/include/c++/13/bits/stl_bvector.h \
- /usr/include/c++/13/bits/vector.tcc \
- /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/random.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/opt_random.h \
  /usr/include/c++/13/bits/random.tcc /usr/include/c++/13/numeric \
  /usr/include/c++/13/bits/stl_numeric.h \
  /usr/include/c++/13/pstl/glue_numeric_defs.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/BVH.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/TerrainHittable.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/WorldData.h \
- /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
- /usr/include/c++/13/bits/algorithmfwd.h \
- /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/pstl/glue_algorithm_defs.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Atmosphere.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/VolumetricCloud.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/WeatherVolume.h
