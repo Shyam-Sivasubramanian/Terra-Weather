@@ -1,9 +1,6 @@
 CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o: \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Renderer.cpp \
- /usr/include/stdc-predef.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/../core/Camera.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Ray.h \
- /usr/include/c++/13/cmath /usr/include/c++/13/bits/requires_hosted.h \
+ /usr/include/stdc-predef.h /usr/include/c++/13/new \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -15,6 +12,10 @@ CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o: \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
  /usr/include/c++/13/pstl/pstl_config.h \
+ /usr/include/c++/13/bits/exception.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/../core/Camera.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Ray.h \
+ /usr/include/c++/13/cmath /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/c++/13/bits/cpp_type_traits.h \
  /usr/include/c++/13/ext/type_traits.h /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -220,8 +221,7 @@ CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.o: \
  /usr/include/glm/packing.hpp /usr/include/glm/detail/func_packing.inl \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
- /usr/include/glm/detail/func_integer.inl /usr/include/c++/13/new \
- /usr/include/c++/13/bits/exception.h \
+ /usr/include/glm/detail/func_integer.inl \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Renderer.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/RayTrace.h \
  /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/raytracer/Scene.h \

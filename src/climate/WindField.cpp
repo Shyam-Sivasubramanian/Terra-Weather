@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cmath>
 #include <iostream>
 #include "WindField.h"
 

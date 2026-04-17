@@ -4,11 +4,11 @@
 #include "core/Camera.h"
 #include <GLFW/glfw3.h>
 #include "core/Camera.h"
-#include "Window.h"
+#include "core/Window.h"
 #include "Framebuffer.h"
 #include "core/Camera.h"
 #include "WorldData.h"
-#include "Scene.h"
+#include "raytracer/Scene.h"
 #include "raytracer/Renderer.h"
 #include "terrain/NoiseGen.h"
 #include "terrain/HeightMap.h"

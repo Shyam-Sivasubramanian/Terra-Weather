@@ -1,3 +1,4 @@
+#include <new>
 #include "../core/Camera.h"
 #include "../core/Camera.h"
 #include <new>

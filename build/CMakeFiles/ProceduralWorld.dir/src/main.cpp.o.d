@@ -223,7 +223,7 @@ CMakeFiles/ProceduralWorld.dir/src/main.cpp.o: \
  /usr/include/glm/detail/func_integer.inl /usr/include/GLFW/glfw3.h \
  /usr/include/GL/gl.h /usr/include/GL/glext.h \
  /usr/include/KHR/khrplatform.h \
- /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/include/Window.h \
+ /mnt/c/Users/shyam/Documents/code/Terra\ Weather/Terra-Weather/src/core/Window.h \
  /usr/include/c++/13/memory /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/c++/13/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
