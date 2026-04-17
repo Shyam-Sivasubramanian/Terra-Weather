@@ -71,7 +71,7 @@ public:
 
         // Mie scattering (aerosols/water droplets)
         float mieTerm = miePhase(cosTheta);
-        atmosphereColor += mieTerm * AtmosphereConstants::mieCoeff * turbidity;
+        atmosphereColor += mieTerm * glm::vec3(AtmosphereConstants::mieCoeff * turbidity);
 
         // Sun intensity
         float sunFactor = glm::max(cosTheta, 0.0f);
@@ -90,7 +90,7 @@ public:
 
         // Sun disk
         if (cosTheta > 0.9999f) {
-            atmosphereColor += glm::vec3(10.0f, 8.0f, 6.0f) * pow((cosTheta - 0.9999f) * 10000.0f, 2.0f);
+            atmosphereColor += glm::vec3(10.0f, 8.0f, 6.0f) * (float)std::pow((cosTheta - 0.9999f) * 10000.0f, 2.0f);
         }
 
         return atmosphereColor;
@@ -123,7 +123,7 @@ public:
         float mieOpticalDepth = distance / AtmosphereConstants::mieHeight;
 
         glm::vec3 rayleighExtinction = exp(-rayleighOpticalDepth * AtmosphereConstants::rayleighCoeff);
-        glm::vec3 mieExtinction = exp(-mieOpticalDepth * AtmosphereConstants::mieCoeff * turbidity);
+        glm::vec3 mieExtinction = glm::exp(-mieOpticalDepth * glm::vec3(AtmosphereConstants::mieCoeff * turbidity));
 
         return rayleighExtinction * mieExtinction;
     }
@@ -139,7 +139,7 @@ public:
 
         glm::vec3 rayOrigin(0.0f, 0.0f, 0.0f);
         float scaleHeight[2] = { AtmosphereConstants::rayleighHeight, AtmosphereConstants::mieHeight };
-        glm::vec3 coefficients[2] = { AtmosphereConstants::rayleighCoeff, AtmosphereConstants::mieCoeff * turbidity };
+        glm::vec3 coefficients[2] = { AtmosphereConstants::rayleighCoeff, glm::vec3(AtmosphereConstants::mieCoeff * turbidity) };
 
         float mu = glm::dot(rayDir, sunDirection);
         float phaseR = rayleighPhase(mu);

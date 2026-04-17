@@ -6,14 +6,6 @@
 /**
  * @brief BVH Node - either internal (has children) or leaf (has primitives)
  */
-struct BVHNode {
-    AABB box;           // Bounding box
-    uint32_t left;      // Index of left child (or first primitive if leaf)
-    uint32_t right;     // Index of right child (or primitive count if leaf)
-    bool isLeaf;        // True if this is a leaf node
-
-    BVHNode() : left(0), right(0), isLeaf(true) {}
-};
 
 /**
  * @brief BVH Implementation with Surface Area Heuristic (SAH) construction

@@ -219,7 +219,7 @@ public:
 
         // Create tile queue
         TileQueue tileQueue(renderWidth, renderHeight, tileSize);
-        stats = RenderStats();
+        stats.~RenderStats(); new (&stats) RenderStats();
         stats.totalTiles = tileQueue.totalTiles;
         stats.startTime = std::chrono::high_resolution_clock::now();
 
@@ -335,7 +335,7 @@ public:
     }
 
     void setCamera(const Camera& cam) {
-        camera = cam;
+        camera.position = cam.position; camera.lookAt = cam.lookAt; camera.up = cam.up; camera.vfov = cam.vfov; camera.aperture = cam.aperture; camera.focusDist = cam.focusDist;
         cameraChanged = true;
         needsRedraw = true;
     }
@@ -407,7 +407,7 @@ void Renderer::setTileSize(int size) {
     impl->setTileSize(size);
 }
 
-void Renderer::setCamera(const Camera& cam) {
+void Renderer::setCamera(const Renderer::Camera& cam) {
     impl->setCamera(cam);
 }
 

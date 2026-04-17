@@ -1,3 +1,5 @@
+#include <stdexcept>
+#include <glad/glad.h>
 #include "Window.h"
 #define GLAD_GL_IMPLEMENTATION
 #include <GLFW/glfw3.h>
@@ -31,7 +33,7 @@ static void* getGLProcAddress(const char* name) {
 
 typedef int GLint;
 typedef unsigned int GLuint;
-typedef size_t GLsizeiptr;
+// ;
 typedef intptr_t GLintptr;
 typedef unsigned int GLenum;
 typedef float GLfloat;
@@ -47,109 +49,109 @@ typedef char GLchar;
 #define GL_VERSION 0x1F02
 #define GL_EXTENSIONS 0x1F03
 
-typedef void (APIENTRYP PFNGLCLEARPROC)(GLbitfield);
-typedef void (APIENTRYP PFNGLCLEARCOLORPROC)(GLfloat,GLfloat,GLfloat,GLfloat);
-typedef void (APIENTRYP PFNGLENABLEPROC)(GLenum);
-typedef void (APIENTRYP PFNGLDISABLEPROC)(GLenum);
-typedef void (APIENTRYP PFNGLDRAWARRAYSPROC)(GLenum,GLint,GLsizei);
-typedef void (APIENTRYP PFNGLBINDTEXTUREPROC)(GLenum,GLuint);
-typedef void (APIENTRYP PFNGLACTIVETEXTUREPROC)(GLenum);
-typedef void (APIENTRYP PFNGLBINDVERTEXARRAYPROC)(GLuint);
-typedef void (APIENTRYP PFNGLBINDBUFFERPROC)(GLenum,GLuint);
-typedef void (APIENTRYP PFNGLBUFFERDATAPROC)(GLenum,GLsizeiptr,const void*,GLenum);
-typedef void (APIENTRYP PFNGLDRAWRANGEELEMENTSPROC)(GLenum,GLuint,GLuint,GLsizei,GLenum,const void*);
-typedef GLenum (APIENTRYP PFNGLGETERRORPROC)(void);
-typedef void (APIENTRYP PFNGLGETINTEGERVPROC)(GLenum,GLint*);
-typedef const GLubyte* (APIENTRYP PFNGLGETSTRINGPROC)(GLenum);
-typedef void (APIENTRYP PFNGLUNIFORM1IPROC)(GLint,GLint);
-typedef void (APIENTRYP PFNGLUNIFORM1FPROC)(GLint,GLfloat);
-typedef void (APIENTRYP PFNGLUNIFORM2FPROC)(GLint,GLfloat,GLfloat);
-typedef void (APIENTRYP PFNGLUNIFORM3FPROC)(GLint,GLfloat,GLfloat,GLfloat);
-typedef void (APIENTRYP PFNGLUNIFORM4FPROC)(GLint,GLfloat,GLfloat,GLfloat,GLfloat);
-typedef GLint (APIENTRYP PFNGLGETUNIFORMLOCATIONPROC)(GLuint,const GLchar*);
-typedef void (APIENTRYP PFNGLUSEPROGRAMPROC)(GLuint);
-typedef void (APIENTRYP PFNGLDELETEBUFFERSPROC)(GLsizei,const GLuint*);
-typedef void (APIENTRYP PFNGLDELETETEXTURESPROC)(GLsizei,const GLuint*);
-typedef void (APIENTRYP PFNGLDELETEVERTEXARRAYSPROC)(GLsizei,const GLuint*);
-typedef void (APIENTRYP PFNGLDELETEPROGRAMPROC)(GLuint);
-typedef void (APIENTRYP PFNGLDELETESHADERPROC)(GLuint);
-typedef void (APIENTRYP PFNGLATTACHSHADERPROC)(GLuint,GLuint);
-typedef void (APIENTRYP PFNGLDETACHSHADERPROC)(GLuint,GLuint);
-typedef void (APIENTRYP PFNGLLINKPROGRAMPROC)(GLuint);
-typedef void (APIENTRYP PFNGLPIXELSTOREIPROC)(GLenum,GLint);
-typedef void (APIENTRYP PFNGLTEXPARAMETERIPROC)(GLenum,GLenum,GLint);
-typedef void (APIENTRYP PFNGLVERTEXATTRIBPOINTERPROC)(GLuint,GLint,GLenum,GLboolean,GLsizei,const void*);
-typedef void (APIENTRYP PFNGLENABLEVERTEXATTRIBARRAYPROC)(GLuint);
-typedef void (APIENTRYP PFNGLDISABLEVERTEXATTRIBARRAYPROC)(GLuint);
-typedef void (APIENTRYP PFNGLCREATESHADERPROC)(GLenum);
+// CLEARPROC)(GLbitfield);
+// CLEARCOLORPROC)(GLfloat,GLfloat,GLfloat,GLfloat);
+// ENABLEPROC)(GLenum);
+// DISABLEPROC)(GLenum);
+// DRAWARRAYSPROC)(GLenum,GLint,GLsizei);
+// BINDTEXTUREPROC)(GLenum,GLuint);
+// ACTIVETEXTUREPROC)(GLenum);
+// BINDVERTEXARRAYPROC)(GLuint);
+// BINDBUFFERPROC)(GLenum,GLuint);
+// ,const void*,GLenum);
+// DRAWRANGEELEMENTSPROC)(GLenum,GLuint,GLuint,GLsizei,GLenum,const void*);
+// GETERRORPROC)(void);
+// GETINTEGERVPROC)(GLenum,GLint*);
+// GETSTRINGPROC)(GLenum);
+// UNIFORM1IPROC)(GLint,GLint);
+// UNIFORM1FPROC)(GLint,GLfloat);
+// UNIFORM2FPROC)(GLint,GLfloat,GLfloat);
+// UNIFORM3FPROC)(GLint,GLfloat,GLfloat,GLfloat);
+// UNIFORM4FPROC)(GLint,GLfloat,GLfloat,GLfloat,GLfloat);
+// GETUNIFORMLOCATIONPROC)(GLuint,const GLchar*);
+// USEPROGRAMPROC)(GLuint);
+// DELETEBUFFERSPROC)(GLsizei,const GLuint*);
+// DELETETEXTURESPROC)(GLsizei,const GLuint*);
+// DELETEVERTEXARRAYSPROC)(GLsizei,const GLuint*);
+// DELETEPROGRAMPROC)(GLuint);
+// DELETESHADERPROC)(GLuint);
+// ATTACHSHADERPROC)(GLuint,GLuint);
+// DETACHSHADERPROC)(GLuint,GLuint);
+// LINKPROGRAMPROC)(GLuint);
+// PIXELSTOREIPROC)(GLenum,GLint);
+// TEXPARAMETERIPROC)(GLenum,GLenum,GLint);
+// VERTEXATTRIBPOINTERPROC)(GLuint,GLint,GLenum,GLboolean,GLsizei,const void*);
+// ENABLEVERTEXATTRIBARRAYPROC)(GLuint);
+// DISABLEVERTEXATTRIBARRAYPROC)(GLuint);
+// CREATESHADERPROC)(GLenum);
 typedef void (APIENTRYP PFNGCSHADERSOURCEPROC)(GLuint,GLsizei,const GLchar*const*,const GLint*);
-typedef void (APIENTRYP PFNGLCOMPILESHADERPROC)(GLuint);
-typedef void (APIENTRYP PFNGLGETSHADERIVPROC)(GLuint,GLenum,GLint*);
-typedef void (APIENTRYP PFNGLGETSHADERINFOLOGPROC)(GLuint,GLsizei,GLsizei*,GLchar*);
-typedef GLuint (APIENTRYP PFNGLCREATEPROGRAMPROC)(void);
-typedef void (APIENTRYP PFNGLATTACHSHADERPROC)(GLuint,GLuint);
-typedef void (APIENTRYP PFNGLLINKPROGRAMPROC)(GLuint);
-typedef void (APIENTRYP PFNGLGETPROGRAMIVPROC)(GLuint,GLenum,GLint*);
-typedef void (APIENTRYP PFNGLGETPROGRAMINFOLOGPROC)(GLuint,GLsizei,GLsizei*,GLchar*);
-typedef void (APIENTRYP PFNGLTEXIMAGE2DPROC)(GLenum,GLint,GLint,GLsizei,GLsizei,GLint,GLenum,GLenum,const void*);
-typedef void (APIENTRYP PFNGLGENTEXTURESPROC)(GLsizei,GLuint*);
-typedef void (APIENTRYP PFNGLGENBUFFERSPROC)(GLsizei,GLuint*);
-typedef void (APIENTRYP PFNGLGENVERTEXARRAYSPROC)(GLsizei,GLuint*);
-typedef void (APIENTRYP PFNGLGENVERTEXARRAYSPROC)(GLsizei, GLuint*);
-typedef void (APIENTRYP PFNGLDELETEVERTEXARRAYSPROC)(GLsizei, const GLuint*);
-typedef void (APIENTRYP PFNGLDELETEBUFFERSPROC)(GLsizei, const GLuint*);
-typedef void (APIENTRYP PFNGLDELETETEXTURESPROC)(GLsizei, const GLuint*);
+// COMPILESHADERPROC)(GLuint);
+// GETSHADERIVPROC)(GLuint,GLenum,GLint*);
+// GETSHADERINFOLOGPROC)(GLuint,GLsizei,GLsizei*,GLchar*);
+// CREATEPROGRAMPROC)(void);
+// ATTACHSHADERPROC)(GLuint,GLuint);
+// LINKPROGRAMPROC)(GLuint);
+// GETPROGRAMIVPROC)(GLuint,GLenum,GLint*);
+// GETPROGRAMINFOLOGPROC)(GLuint,GLsizei,GLsizei*,GLchar*);
+// TEXIMAGE2DPROC)(GLenum,GLint,GLint,GLsizei,GLsizei,GLint,GLenum,GLenum,const void*);
+// GENTEXTURESPROC)(GLsizei,GLuint*);
+// GENBUFFERSPROC)(GLsizei,GLuint*);
+// GENVERTEXARRAYSPROC)(GLsizei,GLuint*);
+// GENVERTEXARRAYSPROC)(GLsizei, GLuint*);
+// DELETEVERTEXARRAYSPROC)(GLsizei, const GLuint*);
+// DELETEBUFFERSPROC)(GLsizei, const GLuint*);
+// DELETETEXTURESPROC)(GLsizei, const GLuint*);
 
 // Function pointers
-static PFNGLCLEARPROC glClear;
-static PFNGLCLEARCOLORPROC glClearColor;
-static PFNGLENABLEPROC glEnable;
-static PFNGLDISABLEPROC glDisable;
-static PFNGLDRAWARRAYSPROC glDrawArrays;
-static PFNGLBINDTEXTUREPROC glBindTexture;
-static PFNGLACTIVETEXTUREPROC glActiveTexture;
-static PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
-static PFNGLBINDBUFFERPROC glBindBuffer;
-static PFNGLBUFFERDATAPROC glBufferData;
-static PFNGLGETERRORPROC glGetError;
-static PFNGLGETINTEGERVPROC glGetIntegerv;
-static PFNGLGETSTRINGPROC glGetString;
-static PFNGLUNIFORM1IPROC glUniform1i;
-static PFNGLUNIFORM1FPROC glUniform1f;
-static PFNGLUNIFORM2FPROC glUniform2f;
-static PFNGLUNIFORM3FPROC glUniform3f;
-static PFNGLUNIFORM4FPROC glUniform4f;
-static PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
-static PFNGLUSEPROGRAMPROC glUseProgram;
-static PFNGLDELETEBUFFERSPROC glDeleteBuffers;
-static PFNGLDELETETEXTURESPROC glDeleteTextures;
-static PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays;
-static PFNGLDELETEPROGRAMPROC glDeleteProgram;
-static PFNGLDELETESHADERPROC glDeleteShader;
-static PFNGLATTACHSHADERPROC glAttachShader;
-static PFNGLDETACHSHADERPROC glDetachShader;
-static PFNGLLINKPROGRAMPROC glLinkProgram;
-static PFNGLPIXELSTOREIPROC glPixelStorei;
-static PFNGLTEXPARAMETERIPROC glTexParameteri;
-static PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
-static PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
-static PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
-static PFNGLCREATESHADERPROC glCreateShader;
+// CLEARPROC glClear;
+// CLEARCOLORPROC glClearColor;
+// ENABLEPROC glEnable;
+// DISABLEPROC glDisable;
+// DRAWARRAYSPROC glDrawArrays;
+// BINDTEXTUREPROC glBindTexture;
+// ACTIVETEXTUREPROC glActiveTexture;
+// BINDVERTEXARRAYPROC glBindVertexArray;
+// BINDBUFFERPROC glBindBuffer;
+// BUFFERDATAPROC glBufferData;
+// GETERRORPROC glGetError;
+// GETINTEGERVPROC glGetIntegerv;
+// GETSTRINGPROC glGetString;
+// UNIFORM1IPROC glUniform1i;
+// UNIFORM1FPROC glUniform1f;
+// UNIFORM2FPROC glUniform2f;
+// UNIFORM3FPROC glUniform3f;
+// UNIFORM4FPROC glUniform4f;
+// GETUNIFORMLOCATIONPROC glGetUniformLocation;
+// USEPROGRAMPROC glUseProgram;
+// DELETEBUFFERSPROC glDeleteBuffers;
+// DELETETEXTURESPROC glDeleteTextures;
+// DELETEVERTEXARRAYSPROC glDeleteVertexArrays;
+// DELETEPROGRAMPROC glDeleteProgram;
+// DELETESHADERPROC glDeleteShader;
+// ATTACHSHADERPROC glAttachShader;
+// DETACHSHADERPROC glDetachShader;
+// LINKPROGRAMPROC glLinkProgram;
+// PIXELSTOREIPROC glPixelStorei;
+// TEXPARAMETERIPROC glTexParameteri;
+// VERTEXATTRIBPOINTERPROC glVertexAttribPointer;
+// ENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
+// DISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
+// CREATESHADERPROC glCreateShader;
 static PFNGCSHADERSOURCEPROC glShaderSource;
-static PFNGLCOMPILESHADERPROC glCompileShader;
-static PFNGLGETSHADERIVPROC glGetShaderiv;
-static PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog;
-static PFNGLCREATEPROGRAMPROC glCreateProgram;
-static PFNGLATTACHSHADERPROC glAttachShader;
-static PFNGLLINKPROGRAMPROC glLinkProgram;
-static PFNGLGETPROGRAMIVPROC glGetProgramiv;
-static PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog;
-static PFNGLTEXIMAGE2DPROC glTexImage2D;
-static PFNGLGENTEXTURESPROC glGenTextures;
-static PFNGLGENBUFFERSPROC glGenBuffers;
-static PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
+// COMPILESHADERPROC glCompileShader;
+// GETSHADERIVPROC glGetShaderiv;
+// GETSHADERINFOLOGPROC glGetShaderInfoLog;
+// CREATEPROGRAMPROC glCreateProgram;
+// ATTACHSHADERPROC glAttachShader;
+// LINKPROGRAMPROC glLinkProgram;
+// GETPROGRAMIVPROC glGetProgramiv;
+// GETPROGRAMINFOLOGPROC glGetProgramInfoLog;
+// TEXIMAGE2DPROC glTexImage2D;
+// GENTEXTURESPROC glGenTextures;
+// GENBUFFERSPROC glGenBuffers;
+// GENVERTEXARRAYSPROC glGenVertexArrays;
 
-static bool gladLoadGLLoader() {
+static bool gladLoadGLLoader_unused() {
     glClear = (PFNGLCLEARPROC)getGLProcAddress("glClear");
     glClearColor = (PFNGLCLEARCOLORPROC)getGLProcAddress("glClearColor");
     glEnable = (PFNGLENABLEPROC)getGLProcAddress("glEnable");
@@ -360,4 +362,16 @@ bool Window::isKeyPressed(int key) const {
 
 void Window::pollEvents() {
     impl->pollEvents();
+}
+
+bool Window::isKeyPressed(int key) const { 
+    return glfwGetKey(glfwGetCurrentContext(), key) == GLFW_PRESS; 
+}
+void Window::display(const float* fb, int w, int h) { 
+    if(fb) { glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h, GL_RGB, GL_FLOAT, fb); }
+    glDrawArrays(GL_TRIANGLES, 0, 6); 
+    glfwSwapBuffers(glfwGetCurrentContext());
+}
+void Window::init(int w, int h) {
+    // Handled by your actual Impl
 }

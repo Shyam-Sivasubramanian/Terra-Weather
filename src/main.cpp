@@ -1,3 +1,6 @@
+#include "raytracer/Renderer.h"
+#include "terrain/HeightMap.h"
+#include "terrain/NoiseGen.h"
 #include "Window.h"
 #include "Framebuffer.h"
 #include "Camera.h"
@@ -28,7 +31,7 @@ public:
         }
 
         // Create window
-        window = std::make_unique<Window>(width, height, "Procedural World - CPU Ray Tracer");
+        window = std::make_unique<Window>(); window->init(width, height);
 
         // Initialize world data
         worldData = std::make_shared<WorldData>();

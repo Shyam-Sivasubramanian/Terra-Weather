@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iostream>
 #include "HeightMap.h"
 #include "NoiseGen.h"
 

@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iostream>
 #include "WindField.h"
 
 WindField::WindField(WorldData& world) : world(world) {}

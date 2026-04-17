@@ -129,6 +129,150 @@ ProceduralWorld/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/build
 .PHONY : ProceduralWorld/fast
 
+src/climate/HumidityMap.o: src/climate/HumidityMap.cpp.o
+.PHONY : src/climate/HumidityMap.o
+
+# target to build an object file
+src/climate/HumidityMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/HumidityMap.cpp.o
+.PHONY : src/climate/HumidityMap.cpp.o
+
+src/climate/HumidityMap.i: src/climate/HumidityMap.cpp.i
+.PHONY : src/climate/HumidityMap.i
+
+# target to preprocess a source file
+src/climate/HumidityMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/HumidityMap.cpp.i
+.PHONY : src/climate/HumidityMap.cpp.i
+
+src/climate/HumidityMap.s: src/climate/HumidityMap.cpp.s
+.PHONY : src/climate/HumidityMap.s
+
+# target to generate assembly for a file
+src/climate/HumidityMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/HumidityMap.cpp.s
+.PHONY : src/climate/HumidityMap.cpp.s
+
+src/climate/Precipitation.o: src/climate/Precipitation.cpp.o
+.PHONY : src/climate/Precipitation.o
+
+# target to build an object file
+src/climate/Precipitation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/Precipitation.cpp.o
+.PHONY : src/climate/Precipitation.cpp.o
+
+src/climate/Precipitation.i: src/climate/Precipitation.cpp.i
+.PHONY : src/climate/Precipitation.i
+
+# target to preprocess a source file
+src/climate/Precipitation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/Precipitation.cpp.i
+.PHONY : src/climate/Precipitation.cpp.i
+
+src/climate/Precipitation.s: src/climate/Precipitation.cpp.s
+.PHONY : src/climate/Precipitation.s
+
+# target to generate assembly for a file
+src/climate/Precipitation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/Precipitation.cpp.s
+.PHONY : src/climate/Precipitation.cpp.s
+
+src/climate/WindField.o: src/climate/WindField.cpp.o
+.PHONY : src/climate/WindField.o
+
+# target to build an object file
+src/climate/WindField.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/WindField.cpp.o
+.PHONY : src/climate/WindField.cpp.o
+
+src/climate/WindField.i: src/climate/WindField.cpp.i
+.PHONY : src/climate/WindField.i
+
+# target to preprocess a source file
+src/climate/WindField.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/WindField.cpp.i
+.PHONY : src/climate/WindField.cpp.i
+
+src/climate/WindField.s: src/climate/WindField.cpp.s
+.PHONY : src/climate/WindField.s
+
+# target to generate assembly for a file
+src/climate/WindField.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/WindField.cpp.s
+.PHONY : src/climate/WindField.cpp.s
+
+src/climate/weathermap.o: src/climate/weathermap.cpp.o
+.PHONY : src/climate/weathermap.o
+
+# target to build an object file
+src/climate/weathermap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.o
+.PHONY : src/climate/weathermap.cpp.o
+
+src/climate/weathermap.i: src/climate/weathermap.cpp.i
+.PHONY : src/climate/weathermap.i
+
+# target to preprocess a source file
+src/climate/weathermap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.i
+.PHONY : src/climate/weathermap.cpp.i
+
+src/climate/weathermap.s: src/climate/weathermap.cpp.s
+.PHONY : src/climate/weathermap.s
+
+# target to generate assembly for a file
+src/climate/weathermap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.s
+.PHONY : src/climate/weathermap.cpp.s
+
+src/core/Camera.o: src/core/Camera.cpp.o
+.PHONY : src/core/Camera.o
+
+# target to build an object file
+src/core/Camera.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/core/Camera.cpp.o
+.PHONY : src/core/Camera.cpp.o
+
+src/core/Camera.i: src/core/Camera.cpp.i
+.PHONY : src/core/Camera.i
+
+# target to preprocess a source file
+src/core/Camera.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/core/Camera.cpp.i
+.PHONY : src/core/Camera.cpp.i
+
+src/core/Camera.s: src/core/Camera.cpp.s
+.PHONY : src/core/Camera.s
+
+# target to generate assembly for a file
+src/core/Camera.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/core/Camera.cpp.s
+.PHONY : src/core/Camera.cpp.s
+
+src/core/Framebuffer.o: src/core/Framebuffer.cpp.o
+.PHONY : src/core/Framebuffer.o
+
+# target to build an object file
+src/core/Framebuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/core/Framebuffer.cpp.o
+.PHONY : src/core/Framebuffer.cpp.o
+
+src/core/Framebuffer.i: src/core/Framebuffer.cpp.i
+.PHONY : src/core/Framebuffer.i
+
+# target to preprocess a source file
+src/core/Framebuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/core/Framebuffer.cpp.i
+.PHONY : src/core/Framebuffer.cpp.i
+
+src/core/Framebuffer.s: src/core/Framebuffer.cpp.s
+.PHONY : src/core/Framebuffer.s
+
+# target to generate assembly for a file
+src/core/Framebuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/core/Framebuffer.cpp.s
+.PHONY : src/core/Framebuffer.cpp.s
+
 src/core/Window.o: src/core/Window.cpp.o
 .PHONY : src/core/Window.o
 
@@ -177,6 +321,102 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/raytracer/Atmosphere.o: src/raytracer/Atmosphere.cpp.o
+.PHONY : src/raytracer/Atmosphere.o
+
+# target to build an object file
+src/raytracer/Atmosphere.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Atmosphere.cpp.o
+.PHONY : src/raytracer/Atmosphere.cpp.o
+
+src/raytracer/Atmosphere.i: src/raytracer/Atmosphere.cpp.i
+.PHONY : src/raytracer/Atmosphere.i
+
+# target to preprocess a source file
+src/raytracer/Atmosphere.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Atmosphere.cpp.i
+.PHONY : src/raytracer/Atmosphere.cpp.i
+
+src/raytracer/Atmosphere.s: src/raytracer/Atmosphere.cpp.s
+.PHONY : src/raytracer/Atmosphere.s
+
+# target to generate assembly for a file
+src/raytracer/Atmosphere.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Atmosphere.cpp.s
+.PHONY : src/raytracer/Atmosphere.cpp.s
+
+src/raytracer/BVH.o: src/raytracer/BVH.cpp.o
+.PHONY : src/raytracer/BVH.o
+
+# target to build an object file
+src/raytracer/BVH.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/BVH.cpp.o
+.PHONY : src/raytracer/BVH.cpp.o
+
+src/raytracer/BVH.i: src/raytracer/BVH.cpp.i
+.PHONY : src/raytracer/BVH.i
+
+# target to preprocess a source file
+src/raytracer/BVH.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/BVH.cpp.i
+.PHONY : src/raytracer/BVH.cpp.i
+
+src/raytracer/BVH.s: src/raytracer/BVH.cpp.s
+.PHONY : src/raytracer/BVH.s
+
+# target to generate assembly for a file
+src/raytracer/BVH.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/BVH.cpp.s
+.PHONY : src/raytracer/BVH.cpp.s
+
+src/raytracer/Materials.o: src/raytracer/Materials.cpp.o
+.PHONY : src/raytracer/Materials.o
+
+# target to build an object file
+src/raytracer/Materials.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Materials.cpp.o
+.PHONY : src/raytracer/Materials.cpp.o
+
+src/raytracer/Materials.i: src/raytracer/Materials.cpp.i
+.PHONY : src/raytracer/Materials.i
+
+# target to preprocess a source file
+src/raytracer/Materials.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Materials.cpp.i
+.PHONY : src/raytracer/Materials.cpp.i
+
+src/raytracer/Materials.s: src/raytracer/Materials.cpp.s
+.PHONY : src/raytracer/Materials.s
+
+# target to generate assembly for a file
+src/raytracer/Materials.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Materials.cpp.s
+.PHONY : src/raytracer/Materials.cpp.s
+
+src/raytracer/RayTrace.o: src/raytracer/RayTrace.cpp.o
+.PHONY : src/raytracer/RayTrace.o
+
+# target to build an object file
+src/raytracer/RayTrace.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/RayTrace.cpp.o
+.PHONY : src/raytracer/RayTrace.cpp.o
+
+src/raytracer/RayTrace.i: src/raytracer/RayTrace.cpp.i
+.PHONY : src/raytracer/RayTrace.i
+
+# target to preprocess a source file
+src/raytracer/RayTrace.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/RayTrace.cpp.i
+.PHONY : src/raytracer/RayTrace.cpp.i
+
+src/raytracer/RayTrace.s: src/raytracer/RayTrace.cpp.s
+.PHONY : src/raytracer/RayTrace.s
+
+# target to generate assembly for a file
+src/raytracer/RayTrace.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/RayTrace.cpp.s
+.PHONY : src/raytracer/RayTrace.cpp.s
+
 src/raytracer/Renderer.o: src/raytracer/Renderer.cpp.o
 .PHONY : src/raytracer/Renderer.o
 
@@ -200,6 +440,102 @@ src/raytracer/Renderer.s: src/raytracer/Renderer.cpp.s
 src/raytracer/Renderer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Renderer.cpp.s
 .PHONY : src/raytracer/Renderer.cpp.s
+
+src/raytracer/Scene.o: src/raytracer/Scene.cpp.o
+.PHONY : src/raytracer/Scene.o
+
+# target to build an object file
+src/raytracer/Scene.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Scene.cpp.o
+.PHONY : src/raytracer/Scene.cpp.o
+
+src/raytracer/Scene.i: src/raytracer/Scene.cpp.i
+.PHONY : src/raytracer/Scene.i
+
+# target to preprocess a source file
+src/raytracer/Scene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Scene.cpp.i
+.PHONY : src/raytracer/Scene.cpp.i
+
+src/raytracer/Scene.s: src/raytracer/Scene.cpp.s
+.PHONY : src/raytracer/Scene.s
+
+# target to generate assembly for a file
+src/raytracer/Scene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/Scene.cpp.s
+.PHONY : src/raytracer/Scene.cpp.s
+
+src/raytracer/TerrainHittable.o: src/raytracer/TerrainHittable.cpp.o
+.PHONY : src/raytracer/TerrainHittable.o
+
+# target to build an object file
+src/raytracer/TerrainHittable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/TerrainHittable.cpp.o
+.PHONY : src/raytracer/TerrainHittable.cpp.o
+
+src/raytracer/TerrainHittable.i: src/raytracer/TerrainHittable.cpp.i
+.PHONY : src/raytracer/TerrainHittable.i
+
+# target to preprocess a source file
+src/raytracer/TerrainHittable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/TerrainHittable.cpp.i
+.PHONY : src/raytracer/TerrainHittable.cpp.i
+
+src/raytracer/TerrainHittable.s: src/raytracer/TerrainHittable.cpp.s
+.PHONY : src/raytracer/TerrainHittable.s
+
+# target to generate assembly for a file
+src/raytracer/TerrainHittable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/TerrainHittable.cpp.s
+.PHONY : src/raytracer/TerrainHittable.cpp.s
+
+src/raytracer/VolumetricCloud.o: src/raytracer/VolumetricCloud.cpp.o
+.PHONY : src/raytracer/VolumetricCloud.o
+
+# target to build an object file
+src/raytracer/VolumetricCloud.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/VolumetricCloud.cpp.o
+.PHONY : src/raytracer/VolumetricCloud.cpp.o
+
+src/raytracer/VolumetricCloud.i: src/raytracer/VolumetricCloud.cpp.i
+.PHONY : src/raytracer/VolumetricCloud.i
+
+# target to preprocess a source file
+src/raytracer/VolumetricCloud.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/VolumetricCloud.cpp.i
+.PHONY : src/raytracer/VolumetricCloud.cpp.i
+
+src/raytracer/VolumetricCloud.s: src/raytracer/VolumetricCloud.cpp.s
+.PHONY : src/raytracer/VolumetricCloud.s
+
+# target to generate assembly for a file
+src/raytracer/VolumetricCloud.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/VolumetricCloud.cpp.s
+.PHONY : src/raytracer/VolumetricCloud.cpp.s
+
+src/raytracer/WeatherVolume.o: src/raytracer/WeatherVolume.cpp.o
+.PHONY : src/raytracer/WeatherVolume.o
+
+# target to build an object file
+src/raytracer/WeatherVolume.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/WeatherVolume.cpp.o
+.PHONY : src/raytracer/WeatherVolume.cpp.o
+
+src/raytracer/WeatherVolume.i: src/raytracer/WeatherVolume.cpp.i
+.PHONY : src/raytracer/WeatherVolume.i
+
+# target to preprocess a source file
+src/raytracer/WeatherVolume.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/WeatherVolume.cpp.i
+.PHONY : src/raytracer/WeatherVolume.cpp.i
+
+src/raytracer/WeatherVolume.s: src/raytracer/WeatherVolume.cpp.s
+.PHONY : src/raytracer/WeatherVolume.s
+
+# target to generate assembly for a file
+src/raytracer/WeatherVolume.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/raytracer/WeatherVolume.cpp.s
+.PHONY : src/raytracer/WeatherVolume.cpp.s
 
 src/terrain/HeightMap.o: src/terrain/HeightMap.cpp.o
 .PHONY : src/terrain/HeightMap.o
@@ -225,6 +561,30 @@ src/terrain/HeightMap.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.s
 .PHONY : src/terrain/HeightMap.cpp.s
 
+src/terrain/noisegen.o: src/terrain/noisegen.cpp.o
+.PHONY : src/terrain/noisegen.o
+
+# target to build an object file
+src/terrain/noisegen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.o
+.PHONY : src/terrain/noisegen.cpp.o
+
+src/terrain/noisegen.i: src/terrain/noisegen.cpp.i
+.PHONY : src/terrain/noisegen.i
+
+# target to preprocess a source file
+src/terrain/noisegen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.i
+.PHONY : src/terrain/noisegen.cpp.i
+
+src/terrain/noisegen.s: src/terrain/noisegen.cpp.s
+.PHONY : src/terrain/noisegen.s
+
+# target to generate assembly for a file
+src/terrain/noisegen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.s
+.PHONY : src/terrain/noisegen.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -234,18 +594,63 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ProceduralWorld"
+	@echo "... src/climate/HumidityMap.o"
+	@echo "... src/climate/HumidityMap.i"
+	@echo "... src/climate/HumidityMap.s"
+	@echo "... src/climate/Precipitation.o"
+	@echo "... src/climate/Precipitation.i"
+	@echo "... src/climate/Precipitation.s"
+	@echo "... src/climate/WindField.o"
+	@echo "... src/climate/WindField.i"
+	@echo "... src/climate/WindField.s"
+	@echo "... src/climate/weathermap.o"
+	@echo "... src/climate/weathermap.i"
+	@echo "... src/climate/weathermap.s"
+	@echo "... src/core/Camera.o"
+	@echo "... src/core/Camera.i"
+	@echo "... src/core/Camera.s"
+	@echo "... src/core/Framebuffer.o"
+	@echo "... src/core/Framebuffer.i"
+	@echo "... src/core/Framebuffer.s"
 	@echo "... src/core/Window.o"
 	@echo "... src/core/Window.i"
 	@echo "... src/core/Window.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/raytracer/Atmosphere.o"
+	@echo "... src/raytracer/Atmosphere.i"
+	@echo "... src/raytracer/Atmosphere.s"
+	@echo "... src/raytracer/BVH.o"
+	@echo "... src/raytracer/BVH.i"
+	@echo "... src/raytracer/BVH.s"
+	@echo "... src/raytracer/Materials.o"
+	@echo "... src/raytracer/Materials.i"
+	@echo "... src/raytracer/Materials.s"
+	@echo "... src/raytracer/RayTrace.o"
+	@echo "... src/raytracer/RayTrace.i"
+	@echo "... src/raytracer/RayTrace.s"
 	@echo "... src/raytracer/Renderer.o"
 	@echo "... src/raytracer/Renderer.i"
 	@echo "... src/raytracer/Renderer.s"
+	@echo "... src/raytracer/Scene.o"
+	@echo "... src/raytracer/Scene.i"
+	@echo "... src/raytracer/Scene.s"
+	@echo "... src/raytracer/TerrainHittable.o"
+	@echo "... src/raytracer/TerrainHittable.i"
+	@echo "... src/raytracer/TerrainHittable.s"
+	@echo "... src/raytracer/VolumetricCloud.o"
+	@echo "... src/raytracer/VolumetricCloud.i"
+	@echo "... src/raytracer/VolumetricCloud.s"
+	@echo "... src/raytracer/WeatherVolume.o"
+	@echo "... src/raytracer/WeatherVolume.i"
+	@echo "... src/raytracer/WeatherVolume.s"
 	@echo "... src/terrain/HeightMap.o"
 	@echo "... src/terrain/HeightMap.i"
 	@echo "... src/terrain/HeightMap.s"
+	@echo "... src/terrain/noisegen.o"
+	@echo "... src/terrain/noisegen.i"
+	@echo "... src/terrain/noisegen.s"
 .PHONY : help
 
 

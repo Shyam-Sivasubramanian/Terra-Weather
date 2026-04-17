@@ -10,6 +10,8 @@ class NoiseGen;
  */
 class HeightMap {
 public:
+    WorldData& world;
+public:
     /**
      * @brief Create height map generator
      */

@@ -1,3 +1,4 @@
+struct TrianglePrimitive;
 #pragma once
 
 #include "HitRecord.h"

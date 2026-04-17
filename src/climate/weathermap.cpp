@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iostream>
 #include "WeatherMap.h"
 
 WeatherMap::WeatherMap(WorldData& world) : world(world) {}

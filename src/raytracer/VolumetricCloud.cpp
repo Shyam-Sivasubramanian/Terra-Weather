@@ -62,7 +62,7 @@ public:
         float fz = z - iz;
 
         // Hash function
-        auto hash = [&dis, &gen](float x, float y, float z) -> float {
+        auto hash = [&](float x, float y, float z) -> float {
             std::mt19937 rng(static_cast<unsigned>(x * 1000 + y * 100 + z * 10));
             return dis(rng);
         };
@@ -113,7 +113,7 @@ public:
         float stepSize = (cloudTop - pos.y) / lightSteps;
 
         for (int i = 0; i < lightSteps; i++) {
-            glm::vec3 samplePos = pos + lightDir * stepSize * i;
+            glm::vec3 samplePos = pos + lightDir * stepSize * (float)i;
             density += sampleDensity(samplePos) * stepSize;
         }
 

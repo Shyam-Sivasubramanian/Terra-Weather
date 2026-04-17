@@ -1,3 +1,5 @@
+#include <vector>
+#include <algorithm>
 #pragma once
 
 #include "glm/glm.hpp"

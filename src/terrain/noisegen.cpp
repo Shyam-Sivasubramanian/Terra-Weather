@@ -1,3 +1,7 @@
+#include <random>
+#include <algorithm>
+#include <cmath>
+#include <iostream>
 #include "NoiseGen.h"
 #include <cmath>
 #include <algorithm>
@@ -142,7 +146,7 @@ float NoiseGen::voronoi(float x, float y, float jitter) const {
             float py = (yi + dy) + dist(cellRng) * jitter;
 
             float dist2 = (x - px) * (x - px) + (y - py) * (y - py);
-            minDist = std::min(minDist, sqrt(dist2));
+            minDist = std::min(minDist, (float)std::sqrt(dist2));
         }
     }
 

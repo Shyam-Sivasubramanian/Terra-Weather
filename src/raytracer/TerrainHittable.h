@@ -41,9 +41,7 @@ public:
     /**
      * @brief Get bounding box for terrain
      */
-    AABB boundingBox(float time0, float time1) const override {
-        return AABB(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-    }
+    AABB boundingBox(float time0, float time1) const override;
 
     /**
      * @brief Get number of triangles

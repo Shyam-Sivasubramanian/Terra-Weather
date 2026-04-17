@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/include"
+CXX_INCLUDES = -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/core" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/terrain" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/climate" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/raytracer"
 
-CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17
+CXX_FLAGS =  -fopenmp -O3 -DNDEBUG -std=gnu++17
 

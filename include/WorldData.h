@@ -1,3 +1,4 @@
+#include <cmath>
 #pragma once
 
 #include <vector>
@@ -31,6 +32,7 @@ struct WorldData {
     std::vector<float> windV;          // Wind velocity V component
     std::vector<float> weatherMap;      // 0=clear, 1=rain, 2=snow
     std::vector<float> cloudDensity;    // [0, 1] volumetric cloud density
+    float getCloudDensity(float x, float y, float z) const { return cloudDensity.empty() ? 0.0f : cloudDensity[0]; }
 
     /**
      * @brief Safely sample a map with boundary clamping

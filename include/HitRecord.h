@@ -1,7 +1,9 @@
+#include <memory>
+#include <glm/glm.hpp>
 #pragma once
 
 #include "Ray.h"
-#include "Material.h"
+class Material;
 #include <memory>
 
 /**

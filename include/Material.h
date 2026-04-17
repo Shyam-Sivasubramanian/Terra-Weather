@@ -1,3 +1,4 @@
+#include "HitRecord.h"
 #pragma once
 
 #include "Ray.h"
@@ -145,7 +146,7 @@ public:
         }
 
         scattered = Ray(rec.point, glm::normalize(scatterDir));
-        attenuation = getColor(rec.u, rec.v, rec.point);
+        attenuation = getColor(rec.uv.x, rec.uv.y, rec.point);
 
         return true;
     }
@@ -249,7 +250,7 @@ public:
     bool scatter(const Ray& rayIn, const HitRecord& rec,
                 glm::vec3& attenuation, Ray& scattered) const override {
         scattered = Ray(rec.point, randomUnitVector());
-        attenuation = texture->value(rec.u, rec.v, rec.point);
+        attenuation = texture->value(rec.uv.x, rec.uv.y, rec.point);
         return true;
     }
 };

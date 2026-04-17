@@ -230,9 +230,6 @@ namespace MaterialFactory {
  */
 
 // Solid color texture
-glm::vec3 SolidColor::value(float u, float v, const glm::vec3& p) const {
-    return color;
-}
 
 // Noise texture
 float NoiseTexture::noiseFunc(const glm::vec3& p) const {

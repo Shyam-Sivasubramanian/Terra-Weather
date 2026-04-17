@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iostream>
 #include "HumidityMap.h"
 
 HumidityMap::HumidityMap(WorldData& world) : world(world) {}
