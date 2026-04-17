@@ -1,5 +1,4 @@
 #include <stdexcept>
-#include <GLFW/glfw3.h>
 #include "Window.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -17,7 +16,7 @@ struct Window::Impl {
     }
 
     void init(int w, int h) {
-        if (!glfwInit()) throw std::runtime_error("Failed to init GLFW");
+        if (!glfwInit()) throw std::runtime_error("Failed to init GLFW"); 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

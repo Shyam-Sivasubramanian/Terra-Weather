@@ -31,7 +31,6 @@ add_executable(ProceduralWorld
     src/climate/WindField.cpp
     src/climate/WeatherMap.cpp
     src/climate/Precipitation.cpp
-    src/climate/CloudMap.cpp
 )
 
 target_include_directories(ProceduralWorld PRIVATE include external/stb external/glad/include)

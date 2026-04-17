@@ -96,6 +96,7 @@ public:
     struct Camera {
         glm::vec3 position;
         glm::vec3 lookAt;
+        glm::vec3 up;
         float fov;              // Field of view in degrees
         float aperture;         // Aperture size (0 = no DOF)
         float focusDistance;    // Focus distance
