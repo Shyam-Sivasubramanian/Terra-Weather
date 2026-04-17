@@ -10,8 +10,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/climate/HumidityMap.cpp" "CMakeFiles/ProceduralWorld.dir/src/climate/HumidityMap.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/climate/HumidityMap.cpp.o.d"
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/climate/Precipitation.cpp" "CMakeFiles/ProceduralWorld.dir/src/climate/Precipitation.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/climate/Precipitation.cpp.o.d"
+  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/climate/WeatherMap.cpp" "CMakeFiles/ProceduralWorld.dir/src/climate/WeatherMap.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/climate/WeatherMap.cpp.o.d"
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/climate/WindField.cpp" "CMakeFiles/ProceduralWorld.dir/src/climate/WindField.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/climate/WindField.cpp.o.d"
-  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/climate/weathermap.cpp" "CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.o.d"
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/core/Camera.cpp" "CMakeFiles/ProceduralWorld.dir/src/core/Camera.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/core/Camera.cpp.o.d"
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/core/Framebuffer.cpp" "CMakeFiles/ProceduralWorld.dir/src/core/Framebuffer.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/core/Framebuffer.cpp.o.d"
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/core/Window.cpp" "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o.d"
@@ -26,7 +26,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/raytracer/VolumetricCloud.cpp" "CMakeFiles/ProceduralWorld.dir/src/raytracer/VolumetricCloud.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/raytracer/VolumetricCloud.cpp.o.d"
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/raytracer/WeatherVolume.cpp" "CMakeFiles/ProceduralWorld.dir/src/raytracer/WeatherVolume.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/raytracer/WeatherVolume.cpp.o.d"
   "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/terrain/HeightMap.cpp" "CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.o.d"
-  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/terrain/noisegen.cpp" "CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.o.d"
+  "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/terrain/NoiseGen.cpp" "CMakeFiles/ProceduralWorld.dir/src/terrain/NoiseGen.cpp.o" "gcc" "CMakeFiles/ProceduralWorld.dir/src/terrain/NoiseGen.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/core" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/terrain" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/climate" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/src/raytracer"
+CXX_INCLUDES = -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/stb" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/glad/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/glfw/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/glm" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/imgui/." -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/imgui/backends"
 
-CXX_FLAGS =  -fopenmp -O3 -DNDEBUG -std=gnu++17
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -fopenmp
 

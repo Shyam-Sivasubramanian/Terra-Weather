@@ -85,6 +85,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/build/CMakeFiles" "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/build//CMakeFiles/progress.marks"
@@ -128,6 +173,84 @@ ProceduralWorld: cmake_check_build_system
 ProceduralWorld/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/build
 .PHONY : ProceduralWorld/fast
+
+#=============================================================================
+# Target rules for targets named uninstall
+
+# Build rule for target.
+uninstall: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uninstall
+.PHONY : uninstall
+
+# fast build rule for target.
+uninstall/fast:
+	$(MAKE) $(MAKESILENT) -f external/glfw/CMakeFiles/uninstall.dir/build.make external/glfw/CMakeFiles/uninstall.dir/build
+.PHONY : uninstall/fast
+
+#=============================================================================
+# Target rules for targets named glfw
+
+# Build rule for target.
+glfw: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glfw
+.PHONY : glfw
+
+# fast build rule for target.
+glfw/fast:
+	$(MAKE) $(MAKESILENT) -f external/glfw/src/CMakeFiles/glfw.dir/build.make external/glfw/src/CMakeFiles/glfw.dir/build
+.PHONY : glfw/fast
+
+#=============================================================================
+# Target rules for targets named update_mappings
+
+# Build rule for target.
+update_mappings: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 update_mappings
+.PHONY : update_mappings
+
+# fast build rule for target.
+update_mappings/fast:
+	$(MAKE) $(MAKESILENT) -f external/glfw/src/CMakeFiles/update_mappings.dir/build.make external/glfw/src/CMakeFiles/update_mappings.dir/build
+.PHONY : update_mappings/fast
+
+#=============================================================================
+# Target rules for targets named glad
+
+# Build rule for target.
+glad: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glad
+.PHONY : glad
+
+# fast build rule for target.
+glad/fast:
+	$(MAKE) $(MAKESILENT) -f external/glad/CMakeFiles/glad.dir/build.make external/glad/CMakeFiles/glad.dir/build
+.PHONY : glad/fast
+
+#=============================================================================
+# Target rules for targets named glm
+
+# Build rule for target.
+glm: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glm
+.PHONY : glm
+
+# fast build rule for target.
+glm/fast:
+	$(MAKE) $(MAKESILENT) -f external/glm/glm/CMakeFiles/glm.dir/build.make external/glm/glm/CMakeFiles/glm.dir/build
+.PHONY : glm/fast
+
+#=============================================================================
+# Target rules for targets named imgui
+
+# Build rule for target.
+imgui: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 imgui
+.PHONY : imgui
+
+# fast build rule for target.
+imgui/fast:
+	$(MAKE) $(MAKESILENT) -f external/imgui/CMakeFiles/imgui.dir/build.make external/imgui/CMakeFiles/imgui.dir/build
+.PHONY : imgui/fast
 
 src/climate/HumidityMap.o: src/climate/HumidityMap.cpp.o
 .PHONY : src/climate/HumidityMap.o
@@ -177,6 +300,30 @@ src/climate/Precipitation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/Precipitation.cpp.s
 .PHONY : src/climate/Precipitation.cpp.s
 
+src/climate/WeatherMap.o: src/climate/WeatherMap.cpp.o
+.PHONY : src/climate/WeatherMap.o
+
+# target to build an object file
+src/climate/WeatherMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/WeatherMap.cpp.o
+.PHONY : src/climate/WeatherMap.cpp.o
+
+src/climate/WeatherMap.i: src/climate/WeatherMap.cpp.i
+.PHONY : src/climate/WeatherMap.i
+
+# target to preprocess a source file
+src/climate/WeatherMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/WeatherMap.cpp.i
+.PHONY : src/climate/WeatherMap.cpp.i
+
+src/climate/WeatherMap.s: src/climate/WeatherMap.cpp.s
+.PHONY : src/climate/WeatherMap.s
+
+# target to generate assembly for a file
+src/climate/WeatherMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/WeatherMap.cpp.s
+.PHONY : src/climate/WeatherMap.cpp.s
+
 src/climate/WindField.o: src/climate/WindField.cpp.o
 .PHONY : src/climate/WindField.o
 
@@ -200,30 +347,6 @@ src/climate/WindField.s: src/climate/WindField.cpp.s
 src/climate/WindField.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/WindField.cpp.s
 .PHONY : src/climate/WindField.cpp.s
-
-src/climate/weathermap.o: src/climate/weathermap.cpp.o
-.PHONY : src/climate/weathermap.o
-
-# target to build an object file
-src/climate/weathermap.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.o
-.PHONY : src/climate/weathermap.cpp.o
-
-src/climate/weathermap.i: src/climate/weathermap.cpp.i
-.PHONY : src/climate/weathermap.i
-
-# target to preprocess a source file
-src/climate/weathermap.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.i
-.PHONY : src/climate/weathermap.cpp.i
-
-src/climate/weathermap.s: src/climate/weathermap.cpp.s
-.PHONY : src/climate/weathermap.s
-
-# target to generate assembly for a file
-src/climate/weathermap.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/climate/weathermap.cpp.s
-.PHONY : src/climate/weathermap.cpp.s
 
 src/core/Camera.o: src/core/Camera.cpp.o
 .PHONY : src/core/Camera.o
@@ -561,29 +684,29 @@ src/terrain/HeightMap.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/HeightMap.cpp.s
 .PHONY : src/terrain/HeightMap.cpp.s
 
-src/terrain/noisegen.o: src/terrain/noisegen.cpp.o
-.PHONY : src/terrain/noisegen.o
+src/terrain/NoiseGen.o: src/terrain/NoiseGen.cpp.o
+.PHONY : src/terrain/NoiseGen.o
 
 # target to build an object file
-src/terrain/noisegen.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.o
-.PHONY : src/terrain/noisegen.cpp.o
+src/terrain/NoiseGen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/NoiseGen.cpp.o
+.PHONY : src/terrain/NoiseGen.cpp.o
 
-src/terrain/noisegen.i: src/terrain/noisegen.cpp.i
-.PHONY : src/terrain/noisegen.i
+src/terrain/NoiseGen.i: src/terrain/NoiseGen.cpp.i
+.PHONY : src/terrain/NoiseGen.i
 
 # target to preprocess a source file
-src/terrain/noisegen.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.i
-.PHONY : src/terrain/noisegen.cpp.i
+src/terrain/NoiseGen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/NoiseGen.cpp.i
+.PHONY : src/terrain/NoiseGen.cpp.i
 
-src/terrain/noisegen.s: src/terrain/noisegen.cpp.s
-.PHONY : src/terrain/noisegen.s
+src/terrain/NoiseGen.s: src/terrain/NoiseGen.cpp.s
+.PHONY : src/terrain/NoiseGen.s
 
 # target to generate assembly for a file
-src/terrain/noisegen.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/noisegen.cpp.s
-.PHONY : src/terrain/noisegen.cpp.s
+src/terrain/NoiseGen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ProceduralWorld.dir/build.make CMakeFiles/ProceduralWorld.dir/src/terrain/NoiseGen.cpp.s
+.PHONY : src/terrain/NoiseGen.cpp.s
 
 # Help Target
 help:
@@ -592,20 +715,30 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... uninstall"
+	@echo "... update_mappings"
 	@echo "... ProceduralWorld"
+	@echo "... glad"
+	@echo "... glfw"
+	@echo "... glm"
+	@echo "... imgui"
 	@echo "... src/climate/HumidityMap.o"
 	@echo "... src/climate/HumidityMap.i"
 	@echo "... src/climate/HumidityMap.s"
 	@echo "... src/climate/Precipitation.o"
 	@echo "... src/climate/Precipitation.i"
 	@echo "... src/climate/Precipitation.s"
+	@echo "... src/climate/WeatherMap.o"
+	@echo "... src/climate/WeatherMap.i"
+	@echo "... src/climate/WeatherMap.s"
 	@echo "... src/climate/WindField.o"
 	@echo "... src/climate/WindField.i"
 	@echo "... src/climate/WindField.s"
-	@echo "... src/climate/weathermap.o"
-	@echo "... src/climate/weathermap.i"
-	@echo "... src/climate/weathermap.s"
 	@echo "... src/core/Camera.o"
 	@echo "... src/core/Camera.i"
 	@echo "... src/core/Camera.s"
@@ -648,9 +781,9 @@ help:
 	@echo "... src/terrain/HeightMap.o"
 	@echo "... src/terrain/HeightMap.i"
 	@echo "... src/terrain/HeightMap.s"
-	@echo "... src/terrain/noisegen.o"
-	@echo "... src/terrain/noisegen.i"
-	@echo "... src/terrain/noisegen.s"
+	@echo "... src/terrain/NoiseGen.o"
+	@echo "... src/terrain/NoiseGen.i"
+	@echo "... src/terrain/NoiseGen.s"
 .PHONY : help
 
 
