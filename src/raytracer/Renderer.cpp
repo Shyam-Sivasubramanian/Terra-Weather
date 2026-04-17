@@ -405,7 +405,7 @@ void Renderer::setTileSize(int size) {
     impl->setTileSize(size);
 }
 
-void Renderer::setCamera(const Camera& cam) {
+void Renderer::setCamera(const Renderer::Camera& cam) {
     impl->setCamera(cam);
 }
 

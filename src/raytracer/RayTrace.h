@@ -73,9 +73,9 @@ Ray generateCameraRay(const CameraParams& params, float u, float v,
                      float uJitter = 0.0f, float vJitter = 0.0f);
 
 /**
- * @brief Camera with depth of field support
+ * @brief Camera with depth of field support helpers
  */
-
+class DOFHelpers {
 private:
     static glm::vec3 randomInUnitDisk() {
         // Implementation of random point in unit disk
