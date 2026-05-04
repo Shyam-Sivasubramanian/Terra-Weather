@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/ProceduralWorld.dir/src/climate/CloudMap.cpp.o"
+  "CMakeFiles/ProceduralWorld.dir/src/climate/CloudMap.cpp.o.d"
   "CMakeFiles/ProceduralWorld.dir/src/climate/HumidityMap.cpp.o"
   "CMakeFiles/ProceduralWorld.dir/src/climate/HumidityMap.cpp.o.d"
   "CMakeFiles/ProceduralWorld.dir/src/climate/Precipitation.cpp.o"
@@ -11,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ProceduralWorld.dir/src/core/Camera.cpp.o.d"
   "CMakeFiles/ProceduralWorld.dir/src/core/Framebuffer.cpp.o"
   "CMakeFiles/ProceduralWorld.dir/src/core/Framebuffer.cpp.o.d"
+  "CMakeFiles/ProceduralWorld.dir/src/core/Texture2D.cpp.o"
+  "CMakeFiles/ProceduralWorld.dir/src/core/Texture2D.cpp.o.d"
   "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o"
   "CMakeFiles/ProceduralWorld.dir/src/core/Window.cpp.o.d"
   "CMakeFiles/ProceduralWorld.dir/src/main.cpp.o"

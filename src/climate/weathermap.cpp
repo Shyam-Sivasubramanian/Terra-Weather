@@ -1,44 +1,53 @@
+#include "Climate.h"
+#include "WorldData.h"
+
+#include <algorithm>
+#include <vector>
 #include <cmath>
-#include <cmath>
-#include <iostream>
-#include "WeatherMap.h"
 
-WeatherMap::WeatherMap(WorldData& world) : world(world) {}
+namespace WeatherMap {
 
-void WeatherMap::generate() {
-    int width = world.width;
-    int height = world.height;
+void build(WorldData& world) {
+    const int W = world.width;
+    const int H = world.height;
+    if (W <= 0 || H <= 0) return;
 
-    // Weather states: 0 = clear, 1 = rain, 2 = snow
-    for (int z = 0; z < height; z++) {
-        for (int x = 0; x < width; x++) {
+    const std::size_t n = static_cast<std::size_t>(W) * H;
+    auto& temp    = world.temperatureMap;
+    auto& weather = world.weatherMap;
+    temp.assign(n, 0.5f);
+    weather.assign(n, 0.0f);
+
+    const float sea = world.seaLevel;
+
+    // Temperature: drops with altitude, warms near sea.
+    for (int z = 0; z < H; ++z) {
+        for (int x = 0; x < W; ++x) {
             float h = world.get(world.heightMap, x, z);
-            float humidity = world.get(world.humidityMap, x, z);
-            float temp = world.getTemperature(x, z);
+            float t = 1.0f - h;         // cooler up high
+            if (h < sea + 0.05f) t += 0.1f; // mild sea warmth
+            temp[static_cast<std::size_t>(z) * W + x] = std::clamp(t, 0.0f, 1.0f);
+        }
+    }
 
-            // Temperature based on height
-            // temp = temperatureMap already accounts for latitude and altitude
-
-            float weather = 0.0f;  // Clear
-
-            // Determine weather based on conditions
-            if (h < world.snowLevel && humidity > 0.6f && temp < 0.4f) {
-                // Snow conditions
-                weather = 2.0f;
-            } else if (h < world.snowLevel && humidity > 0.7f && temp > 0.4f) {
-                // Rain conditions
-                weather = 1.0f;
+    // Classification.
+    //   clear (0): humidity < 0.3
+    //   snow  (2): humid AND cold
+    //   rain  (1): humid AND warm
+    for (int z = 0; z < H; ++z) {
+        for (int x = 0; x < W; ++x) {
+            std::size_t i = static_cast<std::size_t>(z) * W + x;
+            float hum = world.humidityMap[i];
+            float T   = temp[i];
+            if (hum < 0.3f) {
+                weather[i] = 0.0f; // clear
+            } else if (T < 0.3f) {
+                weather[i] = 2.0f; // snow
+            } else {
+                weather[i] = 1.0f; // rain
             }
-
-            // Add temporal variation
-            float variation = simpleNoise(x * 0.05f, z * 0.05f) * 0.3f;
-            weather = std::clamp(weather + variation, 0.0f, 2.0f);
-
-            world.weatherMap[z * width + x] = weather;
         }
     }
 }
 
-float WeatherMap::simpleNoise(float x, float y) const {
-    return sin(x * 1.1f) * cos(y * 0.7f) * 0.5f;
-}
+} // namespace WeatherMap

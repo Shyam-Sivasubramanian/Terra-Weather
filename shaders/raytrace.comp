@@ -1,0 +1,590 @@
+#version 430 core
+
+// ============================================================================
+// ProceduralWorld GPU path tracer — compute shader
+// One invocation per pixel. Reads flat BVH + triangle SSBOs + climate data,
+// writes HDR radiance into an RGBA32F image.
+// ============================================================================
+
+layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+
+// Output: HDR accumulation texture. We read current sum, add new sample,
+// write back. imageAtomicAdd would be nice but isn't available on floats in
+// OpenGL 4.3; single invocation per pixel means no race.
+layout(binding = 0, rgba32f) uniform image2D uAccumImage;
+
+// ---------------- SSBO: flat BVH ----------------
+struct BVHNode {
+    vec4 bmin;   // xyz = AABB min, w = leaf flag (1.0 if leaf)
+    vec4 bmax;   // xyz = AABB max
+    int  left;
+    int  right;
+    int  firstTri;
+    int  triCount;
+};
+layout(std430, binding = 1) readonly buffer BVHNodes {
+    BVHNode bvh[];
+};
+
+// ---------------- SSBO: triangles ----------------
+struct Tri {
+    vec4 v0;    // xyz pos, w = matId
+    vec4 v1;
+    vec4 v2;
+    vec4 n0;
+    vec4 n1;
+    vec4 n2;
+    vec4 uv;    // xy = uv0, zw = uv1
+    vec4 uv2;   // xy = uv2, zw unused
+};
+layout(std430, binding = 2) readonly buffer Tris {
+    Tri tris[];
+};
+
+// ---------------- SSBO: climate fields ----------------
+// weatherMap and humidityMap as flat float arrays (width * height).
+layout(std430, binding = 3) readonly buffer Climate {
+    float climate[];   // packed: [humidity ... ][weather ... ] each w*h floats
+};
+
+// ---------------- SSBO: cloud density ----------------
+layout(std430, binding = 4) readonly buffer Clouds {
+    float cloudDensity[];   // width * cloudLayers * height
+};
+
+// ---------------- Uniforms ----------------
+uniform vec3  uCamPos;
+uniform vec3  uCamForward;
+uniform vec3  uCamRight;
+uniform vec3  uCamUp;
+uniform float uTanHalfFov;
+uniform float uAspect;
+uniform vec2  uResolution;
+uniform int   uFrameIndex;     // for accumulation averaging
+uniform int   uMaxDepth;
+uniform vec3  uSunDir;
+uniform vec3  uSunColor;
+uniform int   uDirectSun;       // bool as int
+uniform int   uWidth;           // climate grid width
+uniform int   uHeight;          // climate grid height
+uniform int   uCloudLayers;
+uniform float uWorldScale;
+uniform float uHeightScale;
+uniform float uCloudAltMin;
+uniform float uCloudAltMax;
+uniform float uSnowLevel;
+uniform float uSeaLevel;
+
+// Grass/rock/snow tints used when blending terrain color.
+uniform vec3 uGrassTint;
+uniform vec3 uRockTint;
+uniform vec3 uSnowTint;
+
+// Debug: when set, tint terrain by weather classification so rain/snow zones
+// are legible at a glance. 0 = off, 1 = on.
+uniform int  uDebugWeather;
+
+// ============================================================================
+// RNG — PCG hash seeded by pixel + frame + bounce. Good enough for path tracing.
+// ============================================================================
+uint rngState;
+uint pcgHash(uint v) {
+    uint state = v * 747796405u + 2891336453u;
+    uint word  = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+    return (word >> 22u) ^ word;
+}
+float rand01() {
+    rngState = pcgHash(rngState);
+    return float(rngState) / 4294967296.0;
+}
+vec3 randInUnitSphere() {
+    for (int i = 0; i < 8; ++i) {
+        vec3 p = vec3(rand01(), rand01(), rand01()) * 2.0 - 1.0;
+        if (dot(p, p) < 1.0) return p;
+    }
+    return vec3(0, 1, 0);
+}
+vec3 randUnit() { return normalize(randInUnitSphere()); }
+
+// ============================================================================
+// Climate grid accessors
+// ============================================================================
+int clampi(int v, int lo, int hi) { return max(lo, min(v, hi)); }
+
+float humidityAt(int x, int z) {
+    x = clampi(x, 0, uWidth  - 1);
+    z = clampi(z, 0, uHeight - 1);
+    return climate[z * uWidth + x];
+}
+float weatherAt(int x, int z) {
+    x = clampi(x, 0, uWidth  - 1);
+    z = clampi(z, 0, uHeight - 1);
+    int base = uWidth * uHeight;
+    return climate[base + z * uWidth + x];
+}
+
+// World XZ -> grid (gx, gz) float coords.
+void worldToGrid(vec3 p, out float gx, out float gz) {
+    gx = (p.x / uWorldScale + 0.5) * float(uWidth  - 1);
+    gz = (p.z / uWorldScale + 0.5) * float(uHeight - 1);
+}
+
+// Trilinear cloud density sample.
+float sampleCloud(vec3 p) {
+    float yMin = uCloudAltMin * uHeightScale;
+    float yMax = uCloudAltMax * uHeightScale;
+    if (p.y < yMin || p.y > yMax) return 0.0;
+    float layerF = (p.y - yMin) / max(yMax - yMin, 1e-6) * float(uCloudLayers - 1);
+
+    float gx, gz;
+    worldToGrid(p, gx, gz);
+    if (gx < 0.0 || gz < 0.0 ||
+        gx > float(uWidth - 1) || gz > float(uHeight - 1)) return 0.0;
+
+    int x0 = int(floor(gx));
+    int z0 = int(floor(gz));
+    int l0 = int(floor(layerF));
+    float tx = gx - float(x0);
+    float tz = gz - float(z0);
+    float tl = layerF - float(l0);
+    int x1 = min(x0 + 1, uWidth  - 1);
+    int z1 = min(z0 + 1, uHeight - 1);
+    int l1 = min(l0 + 1, uCloudLayers - 1);
+    x0 = clampi(x0, 0, uWidth  - 1);
+    z0 = clampi(z0, 0, uHeight - 1);
+    l0 = clampi(l0, 0, uCloudLayers - 1);
+
+    int stride = uWidth * uCloudLayers;
+    #define IDX(X, L, Z) (cloudDensity[(Z)*stride + (L)*uWidth + (X)])
+    float c000 = IDX(x0, l0, z0);
+    float c100 = IDX(x1, l0, z0);
+    float c010 = IDX(x0, l1, z0);
+    float c110 = IDX(x1, l1, z0);
+    float c001 = IDX(x0, l0, z1);
+    float c101 = IDX(x1, l0, z1);
+    float c011 = IDX(x0, l1, z1);
+    float c111 = IDX(x1, l1, z1);
+    #undef IDX
+    float c00 = mix(c000, c100, tx);
+    float c10 = mix(c010, c110, tx);
+    float c01 = mix(c001, c101, tx);
+    float c11 = mix(c011, c111, tx);
+    float c0  = mix(c00, c10, tl);
+    float c1  = mix(c01, c11, tl);
+    return mix(c0, c1, tz);
+}
+
+// ============================================================================
+// Ray-AABB slab test (Andrew Kensler variant)
+// ============================================================================
+bool hitAABB(vec3 ro, vec3 rd, vec3 bmin, vec3 bmax, float tmin, float tmax) {
+    vec3 inv = 1.0 / rd;
+    vec3 t0 = (bmin - ro) * inv;
+    vec3 t1 = (bmax - ro) * inv;
+    vec3 lo = min(t0, t1);
+    vec3 hi = max(t0, t1);
+    float tLo = max(max(lo.x, lo.y), lo.z);
+    float tHi = min(min(hi.x, hi.y), hi.z);
+    tLo = max(tLo, tmin);
+    tHi = min(tHi, tmax);
+    return tHi > tLo;
+}
+
+// ============================================================================
+// Ray-triangle (Möller-Trumbore)
+// ============================================================================
+bool hitTri(vec3 ro, vec3 rd, int triIdx, float tmin, float tmax,
+            out float tHit, out float u, out float v) {
+    vec3 v0 = tris[triIdx].v0.xyz;
+    vec3 e1 = tris[triIdx].v1.xyz - v0;
+    vec3 e2 = tris[triIdx].v2.xyz - v0;
+    vec3 p  = cross(rd, e2);
+    float det = dot(e1, p);
+    if (abs(det) < 1e-8) return false;
+    float inv = 1.0 / det;
+    vec3 s = ro - v0;
+    u = dot(s, p) * inv;
+    if (u < 0.0 || u > 1.0) return false;
+    vec3 q = cross(s, e1);
+    v = dot(rd, q) * inv;
+    if (v < 0.0 || u + v > 1.0) return false;
+    float th = dot(e2, q) * inv;
+    if (th < tmin || th > tmax) return false;
+    tHit = th;
+    return true;
+}
+
+// ============================================================================
+// BVH traversal — iterative with a small stack
+// ============================================================================
+struct HitInfo {
+    float t;
+    vec3  point;
+    vec3  normal;
+    vec2  uv;
+    int   matId;
+    bool  hit;
+};
+
+HitInfo traceScene(vec3 ro, vec3 rd, float tmax) {
+    HitInfo h;
+    h.hit = false;
+    h.t   = tmax;
+    h.matId = -1;
+
+    int stack[48];
+    int sp = 0;
+    stack[sp++] = 0; // root
+
+    int bestTri = -1;
+    float bestU = 0.0, bestV = 0.0;
+
+    while (sp > 0) {
+        int idx = stack[--sp];
+        BVHNode n = bvh[idx];
+        if (!hitAABB(ro, rd, n.bmin.xyz, n.bmax.xyz, 1e-3, h.t)) continue;
+
+        if (n.bmin.w > 0.5) {
+            // Leaf — test all triangles.
+            int start = n.firstTri;
+            int end   = start + n.triCount;
+            for (int i = start; i < end; ++i) {
+                float th, u, v;
+                if (hitTri(ro, rd, i, 1e-3, h.t, th, u, v)) {
+                    h.t = th;
+                    bestTri = i;
+                    bestU = u;
+                    bestV = v;
+                }
+            }
+        } else {
+            // Internal — push both children (stack bounded to 48 which is
+            // plenty for a balanced tree over <1M tris).
+            if (sp < 46) {
+                stack[sp++] = n.left;
+                stack[sp++] = n.right;
+            }
+        }
+    }
+
+    if (bestTri >= 0) {
+        h.hit = true;
+        float w = 1.0 - bestU - bestV;
+        vec3 n = normalize(w * tris[bestTri].n0.xyz
+                         + bestU * tris[bestTri].n1.xyz
+                         + bestV * tris[bestTri].n2.xyz);
+        // Flip normal against ray direction for consistency with CPU version.
+        if (dot(n, rd) > 0.0) n = -n;
+        h.point  = ro + rd * h.t;
+        h.normal = n;
+        vec2 uv0 = tris[bestTri].uv.xy;
+        vec2 uv1 = tris[bestTri].uv.zw;
+        vec2 uv2 = tris[bestTri].uv2.xy;
+        h.uv     = w * uv0 + bestU * uv1 + bestV * uv2;
+        h.matId  = int(tris[bestTri].v0.w);
+    }
+    return h;
+}
+
+// Shadow ray — early out on any hit.
+bool anyHit(vec3 ro, vec3 rd, float tmax) {
+    int stack[48];
+    int sp = 0;
+    stack[sp++] = 0;
+    while (sp > 0) {
+        int idx = stack[--sp];
+        BVHNode n = bvh[idx];
+        if (!hitAABB(ro, rd, n.bmin.xyz, n.bmax.xyz, 1e-3, tmax)) continue;
+        if (n.bmin.w > 0.5) {
+            int start = n.firstTri;
+            int end   = start + n.triCount;
+            for (int i = start; i < end; ++i) {
+                float th, u, v;
+                if (hitTri(ro, rd, i, 1e-3, tmax, th, u, v)) return true;
+            }
+        } else {
+            if (sp < 46) {
+                stack[sp++] = n.left;
+                stack[sp++] = n.right;
+            }
+        }
+    }
+    return false;
+}
+
+// ============================================================================
+// Material scatter — returns albedo and scattered ray
+// ============================================================================
+vec3 terrainAlbedo(vec3 point, vec3 normal) {
+    float slope = 1.0 - abs(normal.y);
+    vec3 base = mix(uGrassTint, uRockTint, smoothstep(0.25, 0.55, slope));
+    float snowMix = smoothstep(uSnowLevel - 1.0, uSnowLevel + 1.5, point.y)
+                  * (1.0 - smoothstep(0.55, 0.85, slope));
+    vec3 albedo = mix(base, uSnowTint, snowMix);
+
+    // Debug overlay: mix in a strong tint based on the weather cell below
+    // this terrain point. Rain = blue, snow = cyan-white, clear = no tint.
+    // Makes Janavi's climate classification visible at a glance.
+    if (uDebugWeather == 1) {
+        float gx, gz;
+        worldToGrid(point, gx, gz);
+        int ix = clampi(int(floor(gx + 0.5)), 0, uWidth  - 1);
+        int iz = clampi(int(floor(gz + 0.5)), 0, uHeight - 1);
+        float w = weatherAt(ix, iz);
+        if (w > 1.5) {
+            albedo = mix(albedo, vec3(0.6, 0.9, 1.0), 0.6);      // snow: cyan
+        } else if (w > 0.5) {
+            albedo = mix(albedo, vec3(0.15, 0.35, 0.7), 0.55);   // rain: blue
+        }
+    }
+    return albedo;
+}
+
+bool scatter(HitInfo h, vec3 rdIn, out vec3 attenuation, out vec3 scatteredDir) {
+    if (h.matId == 0) {
+        // Terrain Lambertian
+        vec3 dir = h.normal + randUnit();
+        if (dot(dir, dir) < 1e-6) dir = h.normal;
+        scatteredDir = normalize(dir);
+        attenuation  = terrainAlbedo(h.point, h.normal);
+        return true;
+    } else {
+        // Water — reflective with slight roughness
+        vec3 r = reflect(rdIn, h.normal);
+        scatteredDir = normalize(r + 0.02 * randInUnitSphere());
+        attenuation  = vec3(0.05, 0.12, 0.18);
+        return dot(scatteredDir, h.normal) > 0.0;
+    }
+}
+
+// ============================================================================
+// Atmosphere / sky
+// ============================================================================
+const float PI = 3.14159265;
+
+float hg(float cosTheta, float g) {
+    float g2 = g * g;
+    float denom = 1.0 + g2 - 2.0 * g * cosTheta;
+    return (1.0 - g2) / (4.0 * PI * pow(max(denom, 1e-4), 1.5));
+}
+float rayleighPhase(float cosTheta) {
+    return (3.0 / (16.0 * PI)) * (1.0 + cosTheta * cosTheta);
+}
+
+vec3 sampleSky(vec3 rd) {
+    float cosSun = dot(rd, uSunDir);
+    vec3 sunDisk = vec3(0.0);
+    if (cosSun > 0.9985 && uSunDir.y > 0.0) {
+        float k = (cosSun - 0.9985) / (1.0 - 0.9985);
+        sunDisk = uSunColor * 30.0 * k;
+    }
+    vec3 zenith  = vec3(0.25, 0.45, 0.90);
+    vec3 horizon = vec3(0.85, 0.85, 0.88);
+    vec3 night   = vec3(0.02, 0.02, 0.05);
+    float daylight = clamp(uSunDir.y * 2.0 + 0.2, 0.0, 1.0);
+    vec3 skyDay = mix(horizon, zenith, clamp(rd.y, 0.0, 1.0));
+    vec3 sky    = mix(night, skyDay, daylight);
+    if (rd.y < 0.0) sky *= max(0.0, 1.0 + rd.y * 1.5);
+
+    vec3 betaR = vec3(5.8e-6, 13.5e-6, 33.1e-6);
+    float betaM = 3.996e-6;
+    float mu = cosSun;
+    float scale = 3e5;
+    vec3 rayleigh = betaR * rayleighPhase(mu) * scale * 20.0;
+    vec3 mie      = vec3(betaM) * hg(mu, 0.76) * scale * 12.0;
+    vec3 scattered = (rayleigh + mie) * uSunColor * max(0.0, uSunDir.y);
+    return sky + scattered + sunDisk;
+}
+
+// ============================================================================
+// Volumetric cloud march
+// ============================================================================
+bool raySlab(vec3 ro, vec3 rd, float yMin, float yMax, float tMaxLim,
+             out float tNear, out float tFar) {
+    if (abs(rd.y) < 1e-6) {
+        if (ro.y >= yMin && ro.y <= yMax) {
+            tNear = 0.0; tFar = tMaxLim; return true;
+        }
+        return false;
+    }
+    float t0 = (yMin - ro.y) / rd.y;
+    float t1 = (yMax - ro.y) / rd.y;
+    if (t0 > t1) { float t = t0; t0 = t1; t1 = t; }
+    tNear = max(t0, 0.0);
+    tFar  = min(t1, tMaxLim);
+    return tFar > tNear;
+}
+
+struct VolResult {
+    float T;        // transmittance
+    vec3  L;        // in-scatter
+};
+
+VolResult cloudMarch(vec3 ro, vec3 rd, float tGeom) {
+    VolResult vr; vr.T = 1.0; vr.L = vec3(0.0);
+    float yMin = uCloudAltMin * uHeightScale;
+    float yMax = uCloudAltMax * uHeightScale;
+    float tN, tF;
+    if (!raySlab(ro, rd, yMin, yMax, tGeom, tN, tF)) return vr;
+    if (tF - tN < 1e-3) return vr;
+
+    const int   steps = 24;
+    const float extK  = 0.10;   // 2x original 0.05 — visible but not a pea soup
+    const float g     = 0.4;
+    float dt = (tF - tN) / float(steps);
+    float cosTheta = dot(normalize(rd), uSunDir);
+    float phase = hg(cosTheta, g);
+
+    for (int i = 0; i < steps; ++i) {
+        float t = tN + (float(i) + 0.5) * dt;
+        vec3 p = ro + rd * t;
+        float d = sampleCloud(p);
+        if (d <= 1e-4) continue;
+        float ext = d * extK;
+        float stepT = exp(-ext * dt);
+        // Quick sun visibility: single short march upward.
+        float sT = 1.0;
+        {
+            float sN, sF;
+            if (raySlab(p, uSunDir, yMin, yMax, 120.0, sN, sF)) {
+                int ss = 4;
+                float sdt = (sF - sN) / float(ss);
+                for (int j = 0; j < ss; ++j) {
+                    float st = sN + (float(j) + 0.5) * sdt;
+                    vec3 sp = p + uSunDir * st;
+                    float sd = sampleCloud(sp);
+                    sT *= exp(-sd * extK * sdt);
+                    if (sT < 1e-3) break;
+                }
+            }
+        }
+        vec3 inScat = uSunColor * sT * phase * ext * dt;
+        if (cosTheta > 0.95) inScat *= 1.0 + (cosTheta - 0.95) * 10.0;
+        vr.L += vr.T * inScat;
+        vr.T *= stepT;
+        if (vr.T < 0.01) { vr.T = 0.0; break; }
+    }
+    return vr;
+}
+
+VolResult weatherMarch(vec3 ro, vec3 rd, float tGeom) {
+    VolResult vr; vr.T = 1.0; vr.L = vec3(0.0);
+    const int steps = 12;
+    float tMax = min(tGeom, 80.0);
+    if (tMax <= 1e-3) return vr;
+    float dt = tMax / float(steps);
+    float cloudFloor = uCloudAltMin * uHeightScale;
+
+    for (int i = 0; i < steps; ++i) {
+        float t = (float(i) + 0.5) * dt;
+        vec3 p = ro + rd * t;
+        if (p.y > cloudFloor) continue;
+        float gx, gz;
+        worldToGrid(p, gx, gz);
+        int ix = int(floor(gx + 0.5));
+        int iz = int(floor(gz + 0.5));
+        float w = weatherAt(ix, iz);
+        if (w < 0.5) continue;
+        float hum = humidityAt(ix, iz);
+        float intensity = clamp((hum - 0.3) / 0.7, 0.0, 1.0);
+        if (intensity <= 0.0) continue;
+        float density;
+        vec3  tint;
+        if (w > 1.5) { density = intensity * 0.020; tint = vec3(0.95, 0.97, 1.00); }
+        else         { density = intensity * 0.010; tint = vec3(0.55, 0.65, 0.80); }
+        // Distance falloff: contributions from far steps fade so low-angle
+        // rays don't pile up into a horizon wall while keeping nearby
+        // weather clearly visible.
+        float distanceFalloff = 1.0 - smoothstep(30.0, 70.0, t);
+        float stepT = exp(-density * dt);
+        vr.L += vr.T * tint * density * dt * 0.5 * distanceFalloff;
+        vr.T *= stepT;
+        if (vr.T < 0.02) { vr.T = 0.0; break; }
+    }
+    return vr;
+}
+
+// ============================================================================
+// Path trace — iterative bounce loop
+// ============================================================================
+vec3 trace(vec3 ro, vec3 rd) {
+    vec3 throughput = vec3(1.0);
+    vec3 radiance   = vec3(0.0);
+
+    for (int depth = 0; depth < uMaxDepth; ++depth) {
+        HitInfo h = traceScene(ro, rd, 1e5);
+        float tGeom = h.hit ? h.t : 1e5;
+
+        VolResult cR = cloudMarch(ro, rd, tGeom);
+        VolResult wR = weatherMarch(ro, rd, tGeom);
+        float segT = cR.T * wR.T;
+        radiance += throughput * (cR.L + wR.L);
+
+        if (!h.hit) {
+            radiance += throughput * segT * sampleSky(rd);
+            break;
+        }
+        throughput *= segT;
+
+        // Direct sun
+        if (uDirectSun == 1) {
+            float nDotL = dot(h.normal, uSunDir);
+            if (nDotL > 0.0 && uSunDir.y > 0.0) {
+                vec3 sro = h.point + h.normal * 1e-3;
+                if (!anyHit(sro, uSunDir, 1e5)) {
+                    // Cloud attenuation for direct sun.
+                    VolResult cs = cloudMarch(sro, uSunDir, 50.0);
+                    vec3 albedo;
+                    if (h.matId == 0) albedo = terrainAlbedo(h.point, h.normal);
+                    else              albedo = vec3(0.05, 0.12, 0.18);
+                    vec3 sunRad = uSunColor * 10.0;
+                    radiance += throughput * albedo * sunRad * nDotL * cs.T / PI;
+                }
+            }
+        }
+
+        vec3 atten, sDir;
+        if (!scatter(h, rd, atten, sDir)) break;
+        throughput *= atten;
+        ro = h.point + h.normal * 1e-3;
+        rd = sDir;
+
+        // Russian roulette past depth 3
+        if (depth >= 3) {
+            float p = clamp(max(max(throughput.r, throughput.g), throughput.b),
+                            0.05, 0.95);
+            if (rand01() > p) break;
+            throughput /= p;
+        }
+    }
+    return radiance;
+}
+
+// ============================================================================
+// Main entry: one invocation per pixel
+// ============================================================================
+void main() {
+    ivec2 pix = ivec2(gl_GlobalInvocationID.xy);
+    if (pix.x >= int(uResolution.x) || pix.y >= int(uResolution.y)) return;
+
+    // Seed RNG from pixel + frame index.
+    rngState = uint(pix.x * 1973 + pix.y * 9277 + uFrameIndex * 26699) | 1u;
+
+    // Anti-alias jitter.
+    float jx = rand01();
+    float jy = rand01();
+    vec2 uv = (vec2(pix) + vec2(jx, jy)) / uResolution;
+    // uv.y = 0 at top to match CPU renderer convention.
+    float nx = (uv.x * 2.0 - 1.0) * uAspect * uTanHalfFov;
+    float ny = (1.0 - uv.y * 2.0) * uTanHalfFov;
+    vec3 rd = normalize(uCamForward + nx * uCamRight + ny * uCamUp);
+    vec3 ro = uCamPos;
+
+    vec3 sample_ = trace(ro, rd);
+
+    // Running-average accumulation.
+    vec4 prev = imageLoad(uAccumImage, pix);
+    float count = prev.a + 1.0;
+    vec3  sum   = prev.rgb + sample_;
+    imageStore(uAccumImage, pix, vec4(sum, count));
+}

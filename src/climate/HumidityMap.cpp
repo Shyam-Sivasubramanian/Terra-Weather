@@ -1,72 +1,55 @@
+#include "Climate.h"
+#include "WorldData.h"
+
+#include <algorithm>
+#include <vector>
 #include <cmath>
-#include <cmath>
-#include <iostream>
-#include "HumidityMap.h"
 
-HumidityMap::HumidityMap(WorldData& world) : world(world) {}
+namespace HumidityMap {
 
-void HumidityMap::generate() {
-    int width = world.width;
-    int height = world.height;
+void build(WorldData& world) {
+    const int W = world.width;
+    const int H = world.height;
+    if (W <= 0 || H <= 0) return;
 
-    for (int z = 0; z < height; z++) {
-        for (int x = 0; x < width; x++) {
-            float height = world.get(world.heightMap, x, z);
+    std::vector<float>& hum = world.humidityMap;
+    hum.assign(static_cast<std::size_t>(W) * H, 0.5f);
 
-            // Base humidity from height (lower = more humid, near water)
-            float baseHumidity = 1.0f - height;
+    const float sea = world.seaLevel;
 
-            // Increase humidity near water
-            if (height < world.seaLevel + 0.05f) {
-                baseHumidity = 1.0f;
-            }
-
-            // Mountains can be drier at peaks
-            if (height > world.snowLevel - 0.1f) {
-                baseHumidity *= 0.7f;
-            }
-
-            // Add some variation
-            float variation = simpleNoise(x * 0.1f, z * 0.1f) * 0.2f;
-            float humidity = baseHumidity + variation;
-
-            // Clamp
-            humidity = std::clamp(humidity, 0.0f, 1.0f);
-
-            world.humidityMap[z * width + x] = humidity;
+    // Base humidity: drier at higher elevations.
+    for (int z = 0; z < H; ++z) {
+        for (int x = 0; x < W; ++x) {
+            float h = world.get(world.heightMap, x, z);
+            float base = 1.0f - h;
+            if (h < sea + 0.05f) base = 0.95f; // ocean boost
+            hum[static_cast<std::size_t>(z) * W + x] = std::clamp(base, 0.0f, 1.0f);
         }
     }
 
-    // Apply rain shadow effect
-    applyRainShadow();
-}
-
-void HumidityMap::applyRainShadow() {
-    // Rain shadow: leeward side of mountains is drier
-    int width = world.width;
-    int height = world.height;
-
-    for (int pass = 0; pass < 3; pass++) {
-        for (int z = 1; z < height - 1; z++) {
-            for (int x = 1; x < width - 1; x++) {
-                float h = world.get(world.heightMap, x, z);
-
-                // Check if uphill in wind direction (wind from +X)
-                float uphillH = world.get(world.heightMap, x + 1, z);
-
-                if (uphillH > h + 0.05f) {
-                    // Reduce humidity on leeward side
-                    world.humidityMap[z * width + x] *= 0.95f;
-                }
+    // Rain shadow: if western neighbor is higher by threshold, reduce.
+    // Prevailing wind is west-to-east, so leeward east side is drier.
+    std::vector<float> tmp = hum;
+    for (int z = 0; z < H; ++z) {
+        for (int x = 1; x < W; ++x) {
+            float hw = world.get(world.heightMap, x - 1, z);
+            float hc = world.get(world.heightMap, x,     z);
+            if (hw > hc + 0.05f) {
+                tmp[static_cast<std::size_t>(z) * W + x] -= 0.3f * (hw - hc) * 3.0f;
             }
+        }
+    }
+
+    // 3x3 Gaussian blur: kernel [1,2,1;2,4,2;1,2,1]/16.
+    for (int z = 0; z < H; ++z) {
+        for (int x = 0; x < W; ++x) {
+            float s =
+                  1.0f * world.get(tmp, x-1, z-1) + 2.0f * world.get(tmp, x, z-1) + 1.0f * world.get(tmp, x+1, z-1)
+                + 2.0f * world.get(tmp, x-1, z  ) + 4.0f * world.get(tmp, x, z  ) + 2.0f * world.get(tmp, x+1, z  )
+                + 1.0f * world.get(tmp, x-1, z+1) + 2.0f * world.get(tmp, x, z+1) + 1.0f * world.get(tmp, x+1, z+1);
+            hum[static_cast<std::size_t>(z) * W + x] = std::clamp(s / 16.0f, 0.0f, 1.0f);
         }
     }
 }
 
-float HumidityMap::simpleNoise(float x, float y) const {
-    // Very simple noise
-    float v = sin(x * 1.2f) * cos(y * 0.8f);
-    v += sin(x * 2.3f + y * 1.7f) * 0.5f;
-    v += cos(x * 0.9f - y * 2.1f) * 0.3f;
-    return v / 1.8f;
-}
+} // namespace HumidityMap

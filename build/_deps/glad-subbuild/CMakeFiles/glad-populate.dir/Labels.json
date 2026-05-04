@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/CMakeFiles/glad-populate"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/CMakeFiles/glad-populate.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/CMakeFiles/glad-populate-complete.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-build.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-configure.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-download.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-install.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-mkdir.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-patch.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-test.rule"
+		},
+		{
+			"file" : "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-subbuild/glad-populate-prefix/src/glad-populate-stamp/glad-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"glad-populate"
+		],
+		"name" : "glad-populate"
+	}
+}

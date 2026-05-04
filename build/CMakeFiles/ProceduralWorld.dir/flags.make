@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/stb" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/glad/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/glfw/include" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/glm" -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/imgui/." -I"/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/external/imgui/backends"
+CXX_INCLUDES = -I/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/include -I/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/external -I/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glfw-src/include -I/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-build/include -I/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glm-src
 
-CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -fopenmp
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -Wall -Wextra -Wno-unused-parameter -fopenmp
 

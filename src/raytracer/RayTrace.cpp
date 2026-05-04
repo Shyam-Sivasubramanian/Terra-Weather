@@ -3,346 +3,113 @@
 #include "Atmosphere.h"
 #include "VolumetricCloud.h"
 #include "WeatherVolume.h"
+#include "WorldData.h"
+#include "Material.h"
+
 #include <algorithm>
-#include <random>
+#include <cmath>
 
-/**
- * @brief Ray tracer configuration
- */
-struct RayTracerConfig {
-    int maxBounces = 8;           // Maximum ray bounce depth
-    float rouletteThreshold = 0.1f;  // Russian roulette survival probability
-    int rouletteStartBounce = 3;  // Start Russian roulette after this many bounces
-    bool useSoftShadows = true;   // Enable soft shadow sampling
-    int shadowRays = 1;            // Number of shadow rays per light
-    bool useAmbientOcclusion = false;  // Enable AO (slow)
-    int aoSamples = 0;             // AO sample count
-};
+namespace RayTrace {
 
-/**
- * @brief Per-thread random generator
- */
-struct ThreadRandom {
-    std::mt19937 rng;
-    std::uniform_real_distribution<float> dist;
+// Iterative implementation of the path tracer. Iterative (vs recursive) avoids
+// blowing the stack at maxDepth and makes Russian-roulette cleaner.
+glm::vec3 trace(const Ray& rIn, const Context& ctx) {
+    Ray r = rIn;
+    glm::vec3 throughput(1.0f);
+    glm::vec3 radiance(0.0f);
 
-    ThreadRandom() {
-        std::random_device rd;
-        rng.seed(rd());
-    }
+    for (int depth = 0; depth < ctx.maxDepth; ++depth) {
+        HitRecord rec;
+        const float tFar = 1e5f;
+        bool hit = ctx.scene && ctx.scene->hit(r, 1e-3f, tFar, rec);
 
-    ThreadRandom(uint32_t seed) {
-        rng.seed(seed);
-    }
+        // Distance to geometry (or far clip if miss) — used by volume marches.
+        float tHit = hit ? rec.t : tFar;
 
-    float random() {
-        return dist(rng);
-    }
-
-    glm::vec3 randomInUnitSphere() {
-        while (true) {
-            float x = random() * 2.0f - 1.0f;
-            float y = random() * 2.0f - 1.0f;
-            float z = random() * 2.0f - 1.0f;
-            glm::vec3 p(x, y, z);
-            if (glm::dot(p, p) < 1.0f) return p;
+        // --- Volumetric contributions along this segment (cloud, weather) ---
+        CloudResult cloudR;
+        if (ctx.clouds && ctx.world && ctx.atmosphere) {
+            cloudR = ctx.clouds->march(r, tHit, *ctx.world, *ctx.atmosphere);
         }
-    }
+        WeatherResult wxR;
+        if (ctx.weather && ctx.world) {
+            wxR = ctx.weather->march(r, tHit, *ctx.world);
+        }
+        // Volume transmittance applies to everything further along the segment.
+        float segT = cloudR.transmittance * wxR.transmittance;
+        // In-scatter accumulates into radiance weighted by throughput-before-segment.
+        radiance += throughput * (cloudR.inscattered + wxR.inscattered);
 
-    glm::vec3 randomCosineDirection() {
-        float r1 = random();
-        float r2 = random();
-        float z = sqrt(1.0f - r1);
-        float phi = 2.0f * 3.14159265f * r2;
-        float x = cos(phi) * sqrt(r1);
-        float y = sin(phi) * sqrt(r1);
-        return glm::vec3(x, y, z);
-    }
-};
-
-class RayTracer::Impl {
-public:
-    Impl(Scene& scene) : scene(scene), config(RayTracerConfig()) {
-        atmosphere = std::make_unique<Atmosphere>(scene.getWorldData());
-        clouds = std::make_unique<VolumetricCloud>(scene.getWorldData());
-        weather = std::make_unique<WeatherVolume>(scene.getWorldData());
-    }
-
-    /**
-     * @brief Trace a single ray through the scene
-     *
-     * Core ray tracing loop with:
-     * - Surface intersection
-     * - Material scattering
-     * - Russian roulette termination
-     * - Volume integration
-     */
-    glm::vec3 trace(const Ray& ray, float time = 0.0f) {
-        ThreadRandom rng(static_cast<unsigned>(ray.origin.x * 1000 +
-                                               ray.origin.z * 100 +
-                                               time * 1000));
-
-        glm::vec3 color = glm::vec3(0.0f);
-        glm::vec3 throughput = glm::vec3(1.0f);
-
-        Ray currentRay = ray;
-        bool inVolume = false;
-
-        for (int depth = 0; depth < config.maxBounces; depth++) {
-            HitRecord rec;
-
-            // Test intersection with scene
-            bool hitSurface = scene.hit(currentRay, 0.001f, 1000.0f, rec);
-
-            if (hitSurface) {
-                // Material interaction
-                glm::vec3 attenuation;
-                Ray scattered;
-
-                if (rec.material && rec.material->scatter(currentRay, rec, attenuation, scattered)) {
-                    // Accumulate color from this bounce
-                    color += throughput * attenuation;
-
-                    // Check for emissive material (light source)
-                    if (rec.material->isEmissive()) {
-                        color += throughput * rec.material->emitted(rec.uv.x, rec.uv.y, rec.point);
-                        break;
-                    }
-
-                    // Russian roulette for path termination
-                    if (depth >= config.rouletteStartBounce) {
-                        float p = glm::max(attenuation.r,
-                                          glm::max(attenuation.g, attenuation.b));
-                        if (p < config.rouletteThreshold) {
-                            float survivalProb = p / config.rouletteThreshold;
-                            if (rng.random() > survivalProb) {
-                                break;  // Terminate path
-                            }
-                            throughput /= survivalProb;
-                        }
-                    }
-
-                    // Continue tracing
-                    throughput *= attenuation;
-                    currentRay = scattered;
-
-                    // Check for volume at hit point
-                    float volumeDensity = scene.getWorldData().getCloudDensity(
-                        static_cast<int>(rec.point.x * scene.getWorldData().width),
-                        static_cast<int>(rec.point.z * scene.getWorldData().height)
-                    );
-
-                    if (volumeDensity > 0.001f && rec.point.y > 0.3f) {
-                        inVolume = true;
-                    }
-                } else {
-                    // Absorption (shouldn't happen with proper materials)
-                    break;
-                }
-            } else {
-                // Sky/atmosphere hit
-                glm::vec3 atmosphereColor = atmosphere->skyColor(currentRay.direction, time);
-                color += throughput * atmosphereColor;
-                break;
-            }
-
-            // Check for volume scattering along ray
-            if (inVolume) {
-                // Ray march through volume
-                glm::vec3 volumeColor = marchVolume(currentRay, time, rng);
-                color += throughput * volumeColor * 0.1f;  // Volume contribution
-            }
-
-            // Early exit if throughput is negligible
-            float maxThroughput = glm::max(throughput.r,
-                                          glm::max(throughput.g, throughput.b));
-            if (maxThroughput < 0.001f) break;
+        if (!hit) {
+            // Missed scene: add sky along this segment, attenuated by volumes.
+            glm::vec3 sky = ctx.atmosphere ? ctx.atmosphere->sampleSky(r)
+                                           : glm::vec3(0.5f, 0.7f, 1.0f);
+            radiance += throughput * segT * sky;
+            break;
         }
 
-        return color;
-    }
+        // Apply volume transmittance before hit shading.
+        throughput *= segT;
 
-    /**
-     * @brief Trace with explicit volume marching
-     */
-    glm::vec3 traceWithVolume(const Ray& ray, float time = 0.0f) {
-        ThreadRandom rng(static_cast<unsigned>(ray.origin.x * 1000 +
-                                               ray.origin.z * 100 +
-                                               time * 1000));
+        // Emissive term (none for terrain, but keeps the loop general).
+        if (rec.mat) radiance += throughput * rec.mat->emitted(rec);
 
-        glm::vec3 color = glm::vec3(0.0f);
-        glm::vec3 throughput = glm::vec3(1.0f);
+        // --- Direct sun sampling ---
+        // Trace a shadow ray toward the sun and add direct illumination.
+        if (ctx.directSunLight && ctx.atmosphere) {
+            glm::vec3 sunDir = ctx.atmosphere->getSunDirection();
+            float nDotL = glm::dot(rec.normal, sunDir);
+            if (nDotL > 0.0f) {
+                Ray shadow(rec.point + rec.normal * 1e-3f, sunDir, 1e-3f, 1e5f);
+                HitRecord srec;
+                bool blocked = ctx.scene && ctx.scene->hit(shadow, 1e-3f, 1e5f, srec);
+                if (!blocked) {
+                    // Also attenuate direct sun by cloud transmittance sampled
+                    // at a single midpoint. Cheap but visually plausible.
+                    float sunT = 1.0f;
+                    if (ctx.clouds && ctx.world) {
+                        CloudResult cs = ctx.clouds->march(shadow, 50.0f,
+                                                           *ctx.world, *ctx.atmosphere);
+                        sunT = cs.transmittance;
+                    }
 
-        float t = 0.0f;
-        const float tMax = 1000.0f;
-        const int steps = 64;
-        float dt = tMax / steps;
-
-        for (int i = 0; i < steps; i++) {
-            glm::vec3 pos = ray.at(t);
-
-            // Get volume density at this point
-            float density = getVolumeDensity(pos, time);
-
-            if (density > 0.001f) {
-                // Sample volume
-                glm::vec3 volumeColor = sampleVolume(pos, ray.direction, time, rng);
-
-                // Beer-Lambert absorption
-                float transmittance = exp(-density * dt * 2.0f);
-
-                // Accumulate in-scattered light
-                color += throughput * volumeColor * (1.0f - transmittance);
-
-                // Update throughput
-                throughput *= transmittance;
-
-                if (glm::max(throughput.r, glm::max(throughput.g, throughput.b)) < 0.01f) {
-                    break;
+                    // Scatter into eye from diffuse BRDF approximation:
+                    // albedo * nDotL / pi — we approximate the albedo by letting
+                    // the material scatter a probe ray and taking its attenuation.
+                    glm::vec3 probeAtt(1.0f);
+                    Ray dummyScatter;
+                    if (rec.mat) rec.mat->scatter(r, rec, probeAtt, dummyScatter);
+                    glm::vec3 sunRad = ctx.atmosphere->getSunColor() * ctx.sunDirectBoost;
+                    radiance += throughput * probeAtt * sunRad * nDotL * sunT
+                              * (1.0f / 3.14159265f);
                 }
             }
-
-            // Check for surface intersection
-            HitRecord rec;
-            if (scene.hit(ray, t, t + dt, rec)) {
-                // Surface hit - continue with surface shading
-                color += throughput * shadeSurface(rec, ray.direction, time, rng);
-                break;
-            }
-
-            t += dt;
         }
 
-        // If no volume or surface hit, return sky color
-        if (t >= tMax) {
-            color += throughput * atmosphere->skyColor(ray.direction, time);
+        // --- Indirect path continuation ---
+        if (!rec.mat) break;
+        glm::vec3 attenuation(1.0f);
+        Ray scattered;
+        if (!rec.mat->scatter(r, rec, attenuation, scattered)) break;
+        throughput *= attenuation;
+        r = scattered;
+
+        // --- Russian roulette after rrStartDepth ---
+        if (depth >= ctx.rrStartDepth) {
+            float p = std::max({throughput.r, throughput.g, throughput.b});
+            p = std::clamp(p, 0.05f, 0.95f);
+            if (randFloat() > p) break;
+            throughput /= p;
         }
 
-        return color;
-    }
-
-    /**
-     * @brief Get volume density at world position
-     */
-    float getVolumeDensity(const glm::vec3& pos, float time) const {
-        const auto& world = scene.getWorldData();
-
-        if (pos.y < 0.2f || pos.y > 0.95f) return 0.0f;
-
-        int x = static_cast<int>(pos.x * world.width);
-        int z = static_cast<int>(pos.z * world.height);
-
-        return world.get(world.cloudDensity, x, z);
-    }
-
-    /**
-     * @brief Sample volume at position
-     */
-    glm::vec3 sampleVolume(const glm::vec3& pos, const glm::vec3& dir,
-                          float time, ThreadRandom& rng) const {
-        // Cloud color based on sun position
-        glm::vec3 sunDir = scene.getSunDirection();
-        float sunAngle = glm::dot(dir, sunDir);
-
-        // Simple cloud lighting
-        glm::vec3 cloudColor = glm::mix(
-            glm::vec3(0.3f, 0.35f, 0.4f),  // Shadowed cloud
-            glm::vec3(1.0f, 0.98f, 0.95f),  // Lit cloud
-            pow(glm::max(sunAngle, 0.0f), 2.0f)
-        );
-
-        return cloudColor;
-    }
-
-    /**
-     * @brief March through volume accumulating scattering
-     */
-    glm::vec3 marchVolume(const Ray& ray, float time, ThreadRandom& rng) const {
-        glm::vec3 pos = ray.origin;
-        glm::vec3 result = glm::vec3(0.0f);
-
-        const int steps = 16;
-        float stepSize = 0.05f;
-
-        for (int i = 0; i < steps; i++) {
-            float density = getVolumeDensity(pos, time);
-            if (density > 0.01f) {
-                glm::vec3 sample = sampleVolume(pos, ray.direction, time, rng);
-                float transmittance = exp(-density * stepSize);
-                result += sample * density * stepSize;
-                result *= transmittance;
-            }
-            pos += ray.direction * stepSize;
+        // Numerical safety: bail on NaNs or huge values.
+        if (!std::isfinite(throughput.r) || !std::isfinite(throughput.g) ||
+            !std::isfinite(throughput.b)) {
+            break;
         }
-
-        return result;
     }
 
-    /**
-     * @brief Shade surface hit
-     */
-    glm::vec3 shadeSurface(const HitRecord& rec, const glm::vec3& rayDir,
-                          float time, ThreadRandom& rng) {
-        glm::vec3 color = glm::vec3(0.0f);
-
-        // Direct lighting
-        glm::vec3 lightDir = scene.getSunDirection();
-        float NdotL = glm::dot(rec.normal, lightDir);
-
-        if (NdotL > 0.0f) {
-            // Shadow test
-            Ray shadowRay(rec.point + rec.normal * 0.001f, lightDir);
-            HitRecord shadowRec;
-            bool inShadow = scene.hit(shadowRay, 0.001f, 1000.0f, shadowRec);
-
-            if (!inShadow) {
-                color += scene.getSunColor() * scene.getSunIntensity() * NdotL;
-            }
-        }
-
-        // Ambient
-        color += scene.getAmbientLight();
-
-        return color;
-    }
-
-    Scene& scene;
-    RayTracerConfig config;
-    std::unique_ptr<Atmosphere> atmosphere;
-    std::unique_ptr<VolumetricCloud> clouds;
-    std::unique_ptr<WeatherVolume> weather;
-};
-
-/**
- * @brief RayTracer implementation
- */
-RayTracer::RayTracer(Scene& scene) : impl(std::make_unique<Impl>(scene)) {}
-
-RayTracer::~RayTracer() = default;
-
-glm::vec3 RayTracer::trace(const Ray& ray, float time) {
-    return impl->trace(ray, time);
+    return radiance;
 }
 
-glm::vec3 RayTracer::traceWithVolume(const Ray& ray, float time) {
-    return impl->traceWithVolume(ray, time);
-}
-
-void RayTracer::setMaxBounces(int bounces) {
-    impl->config.maxBounces = bounces;
-}
-
-void RayTracer::setShadowRays(int rays) {
-    impl->config.shadowRays = rays;
-    impl->config.useSoftShadows = rays > 1;
-}
-
-/**
- * @brief Progressive photon mapping (optional enhancement)
- */
-class ProgressivePhotonMapper {
-public:
-    void tracePhoton(const Ray& ray, const glm::vec3& flux) {
-        // Photon tracing for global illumination
-    }
-};
+} // namespace RayTrace

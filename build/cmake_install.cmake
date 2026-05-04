@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather
+# Install script for directory: /mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,22 +44,17 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/build/external/glfw/cmake_install.cmake")
+  include("/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glfw-build/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/build/external/glad/cmake_install.cmake")
+  include("/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glm-build/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/build/external/glm/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/build/external/imgui/cmake_install.cmake")
+  include("/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/_deps/glad-build/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -70,5 +65,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/c/Users/shyam/Documents/code/Terra Weather/Terra-Weather/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/c/Users/shyam/Documents/code/ProceduralWorld/ProceduralWorld/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
