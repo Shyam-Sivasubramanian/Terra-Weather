@@ -2,18 +2,6 @@
 
 A CPU ray tracer + procedural terrain + climate/weather simulation, all flowing
 through a single shared `WorldData` struct.
-
-## Contents
-
-| Subsystem   | Owner  | Files                                                                      |
-|-------------|--------|----------------------------------------------------------------------------|
-| Shared      | Both   | `WorldData.h`, `Ray.h`, `HitRecord.h`, `Material.h`, `AABB.h`, `Hittable.h`|
-| Core        | Shyam  | `Window` (GL blit only), `Framebuffer`, `Camera`, `Texture2D`              |
-| Terrain     | Shyam  | `NoiseGen` (2D + 3D Perlin), `HeightMap`                                   |
-| Ray tracer  | Shyam  | `BVH`, `TerrainHittable`, `Materials`, `Scene`, `RayTrace`, `Renderer`     |
-| Climate     | Janavi | `HumidityMap`, `WindField`, `WeatherMap`, `Precipitation`, `CloudMap`      |
-| Rendering   | Janavi | `Atmosphere`, `VolumetricCloud`, `WeatherVolume`                           |
-
 ## Build
 
 Requires CMake ≥ 3.20 and a C++17 compiler. GLFW, GLM, and GLAD are pulled
