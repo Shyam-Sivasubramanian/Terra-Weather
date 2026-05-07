@@ -21,7 +21,7 @@ automatically via `FetchContent`, so the only system-level dependency is OpenGL
 3.3 drivers.
 
 ```bash
-cd ProceduralWorld
+cd Terra-Weather
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j
 ./build/ProceduralWorld
@@ -94,7 +94,7 @@ without touching the shared header.
 ## File tree
 
 ```
-ProceduralWorld/
+Terra-Weather/
 ├── CMakeLists.txt
 ├── README.md
 ├── assets/
