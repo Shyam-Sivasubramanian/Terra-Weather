@@ -52,32 +52,6 @@ Expect **1–4 FPS at 1/4 resolution with 1 SPP, `maxDepth = 4`** on an 8-core
 machine, as the plan anticipated. A full 1080p 64-SPP render is multi-minute;
 use `F12` after letting it refine for 20–30 seconds.
 
-## Deviations from the original plan
-
-- **No ImGui yet.** The plan lists ImGui panels for seed/SPP/thread count.
-  Pulling ImGui via `FetchContent` is fiddly (back-end glue choices, version
-  mismatches against GLFW). I wired the essentials — seed, time of day,
-  screenshot — to the keyboard instead so the build works out of the box. Add
-  ImGui as a follow-up if desired.
-- **Terrain is chunked, not a single hittable.** Plan §Week 2 describes the
-  terrain as one large `TerrainHittable` with internal triangle lookup. I used
-  16×16-cell `TerrainChunk` leaves in the top-level BVH instead: chunks give
-  the BVH something useful to prune against without pushing single triangles
-  (~130 000 of them) into the tree and blowing up build time. Each chunk
-  internally linearly tests its own triangles. Intersection math (Möller-
-  Trumbore, smooth normals, barycentric UVs) matches the plan.
-- **Water is flat within each underwater chunk**, not an infinite reflective
-  plane. This keeps shorelines crisp against the terrain mesh.
-- **BVH uses median-split** on centroid along the longest-axis of the centroid
-  bound, not SAH. Plan §Week 4 lists SAH as an upgrade target.
-- **Adaptive sampling is not implemented.** Plan §Week 4 target.
-- **Sun/moon transitions are coarse.** The `setSunFromTimeOfDay(0..1)` function
-  moves the sun along a great circle and dims at night, but there's no lunar
-  disk or star field yet (plan §Week 4).
-
-All data contracts (the fields on `WorldData`, the Week-1 handshake on
-`cloudDensity`) are exactly as the plan specifies, so extensions slot in
-without touching the shared header.
 
 ## File tree
 
